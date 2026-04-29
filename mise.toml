@@ -3,3 +3,4 @@ babashka = { version = "latest", exe = "bb" }
 clj-kondo = "latest"
 cljstyle = "latest"
 clojure = "latest"
+just = "latest"
