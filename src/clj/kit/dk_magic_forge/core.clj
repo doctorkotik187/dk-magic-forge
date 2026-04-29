@@ -10,7 +10,10 @@
    [kit.dk-magic-forge.web.handler]
 
     ;; Routes
-   [kit.dk-magic-forge.web.routes.api])
+   [kit.dk-magic-forge.web.routes.api] 
+    [kit.edge.db.postgres] 
+    [kit.edge.db.sql.conman] 
+    [kit.edge.db.sql.migratus])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
