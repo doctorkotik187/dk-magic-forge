@@ -16,12 +16,28 @@
 (defn home [request]
   (layout/render request "home.html"))
 
+(defn about [request]
+  (layout/render request "about.html"))
+
+(defn contact [request]
+  (layout/render request "contact.html"))
+
+(defn projects [request]
+  (layout/render request "projects.html"))
+
+(defn book-project [request]
+  (layout/render request "book-project.html"))
+
 ;; Routes
 (defn page-routes [_opts]
-  [["/" {:get home}]])
+  [["/" {:get home}]
+  ["/about" {:get about}]
+  ["/contact" {:get contact}]
+  ["/projects" {:get projects}]
+  ["/book-project" {:get book-project}]])
 
 (def route-data
-  {:middleware 
+  {:middleware
    [;; Default middleware for pages
     (wrap-page-defaults)
     ;; query-params & form-params
@@ -39,4 +55,3 @@
       :as   opts}]
   (layout/init-selmer! opts)
   (fn [] [base-path route-data (page-routes opts)]))
-

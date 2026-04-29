@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Get in touch with DK's Magic Forge for inquiries or project requests">
+    <title>Contact | DK's Magic Forge</title>
+
+    <!-- styles -->
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <h2>DK's Magic Forge</h2>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/book-project">Book Project</a>
+            <a href="/about">About</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Contact Us</h1>
+        <p>Have questions or need more information? Reach out to us!</p>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form">
+        <div class="content">
+            <h2>Send Us a Message</h2>
+            <form action="/submit-contact" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Message:</label>
+                    <textarea id="message" name="message" placeholder="Write your message" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="cta">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 DK's Magic Forge. All rights reserved.</p>
+        <p>Made with fire, code, and magic.</p>
+    </footer>
+</body>
+</html>

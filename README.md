@@ -38,7 +38,7 @@ Note that, just like with [CIDER](#cider), this alias runs nREPL during developm
 
 ## PROJECT GOAL
 - Name: DK's Magic Forge
-- Something like a warcraft magic forge themed, a little bit of flair and animations
+- Something like a fantasy magic forge themed, a little bit of flair and animations
 - Everyone can book a project and see what project(s) I am currently working on
 - name, description, pay 1 EUR to make sure you are a real user, first days of work are "cancelable", it is cheaper if I am allowed to stream the project / make it open source
 - project tech stack can be customized: language (clojure / rust / ruby / python), etc.

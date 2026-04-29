@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Book your next project at DK's Magic Forge">
+    <title>Book Your Project | DK's Magic Forge</title>
+
+    <!-- styles -->
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <h2>DK's Magic Forge</h2>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/projects">Projects</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Book Your Project</h1>
+        <p>Bring your idea to life at the DK's Magic Forge! Select your tech stack and let the magic begin.</p>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="booking-form">
+        <div class="content">
+            <h2>Fill in your project details</h2>
+            <form action="/submit-project" method="POST">
+                <div class="form-group">
+                    <label for="project-name">Project Name:</label>
+                    <input type="text" id="project-name" name="project_name" placeholder="Enter your project name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="project-description">Project Description:</label>
+                    <textarea id="project-description" name="project_description" placeholder="Brief description of your project" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tech-stack">Select Tech Stack:</label>
+                    <select id="tech-stack" name="tech_stack">
+                        <option value="clojure">Clojure</option>
+                        <option value="rust">Rust</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="python">Python</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="streaming-option">Opt-in for Streaming (Optional):</label>
+                    <input type="checkbox" id="streaming-option" name="streaming_option" />
+                    <span>Stream your project and make it open source for a discount!</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="deposit-amount">Deposit (1 EUR):</label>
+                    <input type="number" id="deposit-amount" name="deposit_amount" value="1" readonly />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="cta">Book Your Project</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 DK's Magic Forge. All rights reserved.</p>
+        <p>Made with fire, code, and magic.</p>
+    </footer>
+</body>
+</html>
