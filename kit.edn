@@ -1,0 +1,8 @@
+{:full-name "kit/dk-magic-forge"
+ :ns-name   "kit.dk-magic-forge"
+ :sanitized "kit/dk_magic_forge"
+ :name      "dk-magic-forge"
+ :modules   {:root         "modules"
+             :repositories [{:url  "https://github.com/kit-clj/modules.git"
+                             :tag  "master"
+                             :name "kit-modules"}]}}
