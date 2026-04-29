@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="dk-magic-forge: Where your projects are forged and made real">
-    <title>Welcome to DK's Magic Forge</title>
+{% extends "base.html" %}
 
-    <!-- styles -->
-    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <h2>DK's Magic Forge</h2>
-        </div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/projects">Projects</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-        </div>
-    </nav>
-
+{% block content %}
     <!-- Hero Section -->
     <section class="hero">
         <h1>Welcome to the Forge!</h1>
@@ -37,11 +15,4 @@
             <p>At DK's Magic Forge, we specialize in turning ideas into code. Whether it's a website, an app, or a full-scale project, we have the tools and magic to bring your vision to life.</p>
         </div>
     </section>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2026 DK's Magic Forge. All rights reserved.</p>
-        <p>Made with fire, code, and magic.</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Get in touch with DK's Magic Forge for inquiries or project requests">
-    <title>Contact | DK's Magic Forge</title>
+{% extends "base.html" %}
 
-    <!-- styles -->
-    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <h2>DK's Magic Forge</h2>
-        </div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/projects">Projects</a>
-            <a href="/book-project">Book Project</a>
-            <a href="/about">About</a>
-        </div>
-    </nav>
-
+{% block content %}
     <!-- Hero Section -->
     <section class="hero">
         <h1>Contact Us</h1>
@@ -55,11 +33,4 @@
             </form>
         </div>
     </section>
-
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2026 DK's Magic Forge. All rights reserved.</p>
-        <p>Made with fire, code, and magic.</p>
-    </footer>
-</body>
-</html>
+{% endblock %}

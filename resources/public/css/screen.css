@@ -1,8 +1,7 @@
 /* Basic Styles for Forge Theme */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, rgba(50, 50, 50, 0.8), rgba(0, 0, 0, 0.8)), url('forge-bg.jpg');
-    background-size: cover;
+    background: linear-gradient(135deg, rgba(50, 50, 50, 0.8), rgba(0, 0, 0, 0.8)), url('forge-bg.jpg') no-repeat center/cover;
     color: #f4e1c1;
     margin: 0;
     padding: 0;
@@ -15,6 +14,7 @@ h1, h2, h3 {
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
 }
 
+/* Navbar */
 nav {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
@@ -25,29 +25,26 @@ nav {
 
 nav a {
     color: #f4e1c1;
-    text-decoration: none;
     font-size: 18px;
     margin: 0 15px;
-    transition: color 0.3s ease;
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
 nav a:hover {
-    color: #f39c12;
+    color: #00b3ff;  /* Light Blue */
+    text-shadow: 2px 2px 10px rgba(0, 179, 255, 0.7); /* Light blue glow */
 }
 
-/* Hero Section Styles */
+/* Hero Section */
 .hero {
     text-align: center;
     padding: 100px 20px;
-    color: #f4e1c1;
     font-size: 2.5rem;
     animation: fadeIn 3s ease-out;
 }
 
-.hero h1 {
-    font-size: 4rem;
-    margin-bottom: 20px;
-}
+.hero h1 { font-size: 4rem; margin-bottom: 20px; }
 
 .hero .cta {
     display: inline-block;
@@ -58,29 +55,23 @@ nav a:hover {
     text-transform: uppercase;
     border-radius: 50px;
     text-decoration: none;
-    transition: transform 0.2s ease;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .hero .cta:hover {
-    transform: scale(1.1);
+    background-color: #00b3ff; /* Light Blue */
+    box-shadow: 0 0 15px rgba(0, 179, 255, 0.7); /* Light blue glow */
 }
 
-/* Footer Section */
+/* Footer */
 footer {
     text-align: center;
     padding: 50px 20px;
     background-color: rgba(0, 0, 0, 0.8);
-    color: #f4e1c1;
 }
 
-/* Animation for fading text */
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Additional styles for the booking page */
-.booking-form {
+/* Forms */
+.form-container {
     padding: 50px 20px;
     background-color: rgba(0, 0, 0, 0.7);
     color: #f4e1c1;
@@ -90,17 +81,8 @@ footer {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.booking-form .form-group {
-    margin-bottom: 20px;
-}
-
-.booking-form label {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.booking-form input, .booking-form textarea, .booking-form select {
+.form-container input, .form-container select, .form-container textarea,
+.form-container button.cta {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -108,93 +90,33 @@ footer {
     color: #f4e1c1;
     border: 2px solid #f39c12;
     border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.booking-form input[type="checkbox"] {
-    margin-right: 10px;
+.form-container input:focus, .form-container select:focus, .form-container textarea:focus {
+    border-color: #00b3ff; /* Light Blue */
+    box-shadow: 0 0 10px rgba(0, 179, 255, 0.5); /* Light Blue glow */
 }
 
-.booking-form button.cta {
+.form-container button.cta {
     background-color: #f39c12;
-    padding: 15px 30px;
     color: #fff;
     font-size: 1.2rem;
     text-transform: uppercase;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.booking-form button.cta:hover {
-    transform: scale(1.1);
+.form-container button.cta:hover {
+    background-color: #00b3ff; /* Light Blue */
+    box-shadow: 0 0 15px rgba(0, 179, 255, 0.7); /* Light blue glow */
 }
 
-.booking-form textarea {
-    height: 150px;
-    resize: vertical;
-}
+.form-container textarea { height: 150px; resize: vertical; }
 
-/* Additional styles for the contact page */
-.contact-form {
-    padding: 50px 20px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #f4e1c1;
-    margin: 30px auto;
-    max-width: 800px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.contact-form h2 {
-    font-size: 2.5rem;
-    color: #f39c12;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-}
-
-.contact-form .form-group {
-    margin-bottom: 20px;
-}
-
-.contact-form label {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #333;
-    color: #f4e1c1;
-    border: 2px solid #f39c12;
-    border-radius: 5px;
-}
-
-.contact-form button.cta {
-    background-color: #f39c12;
-    padding: 15px 30px;
-    color: #fff;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.contact-form button.cta:hover {
-    transform: scale(1.1);
-}
-
-.contact-form textarea {
-    height: 150px;
-    resize: vertical;
-}
-
-/* Additional styles for the projects page */
+/* Projects & Offers */
 .projects, .offers {
     padding: 50px 20px;
     background-color: rgba(0, 0, 0, 0.7);
@@ -205,12 +127,7 @@ footer {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.projects h2, .offers h2 {
-    font-size: 2.5rem;
-    color: #f39c12;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-}
+.projects h2, .offers h2 { font-size: 2.5rem; color: #f39c12; margin-bottom: 20px; }
 
 .project-card, .offer-card {
     background-color: rgba(255, 255, 255, 0.1);
@@ -221,21 +138,9 @@ footer {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.project-card h3, .offer-card h3 {
-    font-size: 2rem;
-    color: #f39c12;
-    margin-bottom: 10px;
-}
+.project-card h3, .offer-card h3 { font-size: 2rem; color: #f39c12; margin-bottom: 10px; }
 
-.project-card p, .offer-card p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-}
-
-.status {
-    font-weight: bold;
-    color: #27ae60;
-}
+.project-card p, .offer-card p { font-size: 1.2rem; line-height: 1.6; }
 
 .status.active {
     background-color: #27ae60;
@@ -244,10 +149,4 @@ footer {
     color: #fff;
 }
 
-.offer-card p {
-    font-size: 1.1rem;
-}
-
-.offer-card p strong {
-    font-weight: bold;
-}
+.offer-card p strong { font-weight: bold; }
