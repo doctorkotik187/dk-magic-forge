@@ -13,7 +13,8 @@
    [kit.dk-magic-forge.web.routes.api] 
     [kit.edge.db.postgres] 
     [kit.edge.db.sql.conman] 
-    [kit.edge.db.sql.migratus])
+    [kit.edge.db.sql.migratus] 
+    [kit.dk-magic-forge.web.routes.pages])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
