@@ -1,5 +1,6 @@
 (ns kit.dk-magic-forge.web.routes.pages
   (:require
+    [kit.dk-magic-forge.web.controllers.project :as project]
     [kit.dk-magic-forge.web.middleware.exception :as exception]
     [kit.dk-magic-forge.web.pages.layout :as layout]
     [integrant.core :as ig]
@@ -28,9 +29,6 @@
 (defn inbox [request]
   (layout/render request "inbox.html"))
 
-(defn projects [request]
-  (layout/render request "projects.html"))
-
 (defn someday [request]
   (layout/render request "someday.html"))
 
@@ -38,15 +36,21 @@
   (layout/render request "archives.html"))
 
 ;; Routes
-(defn page-routes [_opts]
+(defn page-routes [opts]
   [["/" {:get home}]
-  ["/about" {:get about}]
-  ["/contact" {:get contact}]
-  ["/book-project" {:get book-project}]
-  ["/inbox" {:get inbox}]
-  ["/projects" {:get projects}]
-  ["/someday" {:get someday}]
-  ["/archives" {:get archives}]])
+   ["/about" {:get about}]
+   ["/contact" {:get contact}]
+   ["/book-project" {:get book-project}]
+
+   ["/inbox" {:get inbox}]
+   ["/someday" {:get someday}]
+   ["/archives" {:get archives}]
+
+   ["/projects" {:get (partial project/list-projects opts)}]
+   ["/projects/:id" {:get project/get-project}]
+
+   ["/projects/:id/state" {:post project/update-state!}]
+   ["/projects/:id/list" {:post project/update-list!}]])
 
 (def route-data
   {:middleware

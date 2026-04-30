@@ -55,4 +55,5 @@
                      :db {:datasource #ig/ref :db.sql/connection},
                      :migrate-on-init? true}
  :reitit.routes/pages {:base-path "",
-                       :env #ig/ref :system/env}}
+                       :env #ig/ref :system/env
+                       :query-fn #ig/ref :db.sql/query-fn}}
