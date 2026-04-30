@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Inbox</h1>
+    <p>New ideas arrive here. They are not yet shaped in the forge.</p>
+</section>
+
+<section class="projects-list">
+    <div class="content">
+        <h2>Incoming Projects</h2>
+
+        <!-- Example item -->
+        <div class="project-card inbox">
+            <h3>✦ New Project Request</h3>
+            <p><strong>Status:</strong> Waiting to be reviewed</p>
+            <p>All incoming project ideas will appear here before being accepted into the forge.</p>
+
+            <a href="/book-project" class="cta">Book a Project</a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

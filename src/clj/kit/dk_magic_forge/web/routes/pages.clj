@@ -22,19 +22,31 @@
 (defn contact [request]
   (layout/render request "contact.html"))
 
+(defn book-project [request]
+  (layout/render request "book-project.html"))
+
+(defn inbox [request]
+  (layout/render request "inbox.html"))
+
 (defn projects [request]
   (layout/render request "projects.html"))
 
-(defn book-project [request]
-  (layout/render request "book-project.html"))
+(defn someday [request]
+  (layout/render request "someday.html"))
+
+(defn archives [request]
+  (layout/render request "archives.html"))
 
 ;; Routes
 (defn page-routes [_opts]
   [["/" {:get home}]
   ["/about" {:get about}]
   ["/contact" {:get contact}]
+  ["/book-project" {:get book-project}]
+  ["/inbox" {:get inbox}]
   ["/projects" {:get projects}]
-  ["/book-project" {:get book-project}]])
+  ["/someday" {:get someday}]
+  ["/archives" {:get archives}]])
 
 (def route-data
   {:middleware

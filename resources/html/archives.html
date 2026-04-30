@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Archives</h1>
+    <p>Finished journeys, lost experiments, and completed magic.</p>
+</section>
+
+<section class="projects-list">
+    <div class="content">
+        <h2>Completed / Canceled</h2>
+
+        <!-- Example archived project -->
+        <div class="project-card archived">
+            <h3>
+                <span class="project-title">The Old Firestorm Build</span>
+            </h3>
+            <p><strong>Status:</strong> Completed</p>
+            <p>This project has been sealed in the archive vault.</p>
+
+            <div class="project-images">
+                <img src="/img/dwarfs/idle/1.png" alt="Archived tools">
+                <img src="/img/dwarfs/idle/2.png" alt="Archived tools">
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

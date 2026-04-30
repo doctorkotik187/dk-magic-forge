@@ -144,3 +144,33 @@ nav a:hover {
     border-radius: 5px;
     color: #fff;
 }
+
+/* Inbox / Someday / Archive accents */
+.inbox {
+    border-color: #3498db;
+}
+
+.someday {
+    border-color: #9b59b6;
+    opacity: 0.9;
+}
+
+.archived {
+    border-color: #7f8c8d;
+    opacity: 0.75;
+}
+
+/* CTA reuse if needed */
+.cta {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: #f39c12;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+}
+
+.cta:hover {
+    background: #00b3ff;
+}
