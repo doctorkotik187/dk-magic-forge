@@ -1,19 +1,19 @@
 (ns kit.dk-magic-forge.web.controllers.project
   (:require
-   [clojure.tools.logging :as log]
    [kit.dk-magic-forge.web.pages.layout :as layout]
-   [ring.util.http-response :as http]))
+   [ring.util.response :as response]
+   [clojure.string :as str]
+   [clojure.tools.logging :as log]))
 
 ;; -------------------------
 ;; Helpers
 ;; -------------------------
 
-(defn base-project [params]
-  {:title (:title params)
-   :description (:description params)
-   :list (or (:list params) "inbox")
-   :state (or (:state params) "todo")
-   :client_budget_cents (:client_budget_cents params)})
+(defn- blank? [s]
+  (or (nil? s) (str/blank? s)))
+
+(defn- uuid []
+  (java.util.UUID/randomUUID))
 
 ;; -------------------------
 ;; Queries
@@ -21,41 +21,87 @@
 
 (defn list-projects
   [{:keys [query-fn]} request]
-  (layout/render request
-                 "projects.html"
+  (layout/render request "projects.html"
                  {:projects (query-fn :get-projects {})}))
 
 (defn get-project
-  [{:keys [query-fn]} {{:keys [id]} :path-params}]
+  [{:keys [query-fn]} {{:keys [id]} :path-params :as request}]
   (if-let [project (query-fn :get-project {:id id})]
-    (http/ok project)
-    (http/not-found {:error "Project not found"})))
+    (layout/render request "project.html" {:project project})
+    (layout/render request "404.html" {:error "Project not found"})))
 
 ;; -------------------------
 ;; Create
 ;; -------------------------
 
 (defn create-project!
-  [{:keys [query-fn]} {:keys [params]}]
-  (try
-    (let [project (base-project params)]
-      (query-fn :create-project! project)
-      (http/found "/projects"))
-    (catch Exception e
-      (log/error e "Failed to create project")
-      (http/internal-server-error
-       {:error "Failed to create project"}))))
+  [{:keys [query-fn]}
+   {{:strs [project_name project_description tech_stack streaming_option]}
+    :form-params
+    :as request}]
+
+  (log/debug "FORM PARAMS:" project_name project_description tech_stack streaming_option)
+
+  (let [errors (cond-> {}
+                 (blank? project_name)
+                 (assoc :project_name "Project name is required")
+
+                 (blank? project_description)
+                 (assoc :project_description "Description is required"))
+
+        is-public (boolean streaming_option)
+
+        project-data {:id (uuid)
+                      :title project_name
+                      :description project_description
+                      :programming_lang (or tech_stack "clojure")
+                      :is_open_source is-public
+                      :list "booked"
+                      :state "pending"
+                      :client_budget_cents (if is-public 50 100)}]
+
+    (if (seq errors)
+      (-> (response/redirect "/projects/new")
+          (assoc :flash {:errors errors}))
+
+      (try
+        (log/debug "INSERTING PROJECT:" project-data)
+        (query-fn :create-project! project-data)
+
+        (-> (response/redirect "/projects")
+            (assoc :flash {:message
+                           (str "Project '" project_name "' ("
+                                (if is-public "🔓 Public" "🔒 Private")
+                                ") created!")}))
+        (catch Exception e
+          (log/error e "Failed to create project")
+          (-> (response/redirect "/projects/new")
+              (assoc :flash {:errors {:unknown (.getMessage e)}})))))))
 
 ;; -------------------------
-;; State transitions (GTD core)
+;; Updates
 ;; -------------------------
 
 (defn update-state!
-  [{:keys [query-fn]} {{:keys [id]} :path-params {:keys [state]} :params}]
+  [{:keys [query-fn]}
+   {{:keys [id]} :path-params
+    {:keys [state]} :form-params}]
+
+  (log/debug "UPDATE STATE:" id state)
+
   (query-fn :update-state! {:id id :state state})
-  (http/found "/projects"))
+
+  (-> (response/redirect "/projects")
+      (assoc :flash {:message (str "State → " state)})))
 
 (defn update-list!
-  [{:keys [query-fn]} {{:keys [id]} :path-params {:keys [list]} :params}]
+  [{:keys [query-fn]}
+   {{:keys [id]} :path-params
+    {:keys [list]} :form-params}]
+
+  (log/debug "UPDATE LIST:" id list)
+
   (query-fn :update-list! {:id id :list list})
-  (http/found "/projects"))
+
+  (-> (response/redirect "/projects")
+      (assoc :flash {:message (str "List → " list)})))

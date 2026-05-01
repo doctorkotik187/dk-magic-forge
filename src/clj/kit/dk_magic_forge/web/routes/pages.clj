@@ -24,7 +24,8 @@
   (layout/render request "contact.html"))
 
 (defn book-project [request]
-  (layout/render request "book-project.html"))
+  (layout/render request "book-project.html"
+                 {:flash (:flash request)}))
 
 (defn inbox [request]
   (layout/render request "inbox.html"))
@@ -40,14 +41,16 @@
   [["/" {:get home}]
    ["/about" {:get about}]
    ["/contact" {:get contact}]
-   ["/book-project" {:get book-project}]
+   ["/book-project"
+    {:get  book-project
+     :post (partial project/create-project! opts)}]
 
    ["/inbox" {:get inbox}]
    ["/someday" {:get someday}]
    ["/archives" {:get archives}]
 
    ["/projects" {:get (partial project/list-projects opts)}]
-   ["/projects/:id" {:get project/get-project}]
+   ["/project/:id" {:get project/get-project}]
 
    ["/projects/:id/state" {:post project/update-state!}]
    ["/projects/:id/list" {:post project/update-list!}]])

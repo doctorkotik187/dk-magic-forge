@@ -3,10 +3,12 @@ CREATE TABLE projects (
 
     title VARCHAR(120) NOT NULL,
     description TEXT,
+    programming_lang VARCHAR(50) DEFAULT 'clojure',
+    is_open_source BOOLEAN DEFAULT false,
 
     -- GTD / workflow layer
     list VARCHAR(20) NOT NULL DEFAULT 'inbox',
-    state VARCHAR(20) DEFAULT 'none',
+    state VARCHAR(20) DEFAULT '',
 
     -- ordering (optional but useful)
     priority INTEGER DEFAULT 100,

@@ -29,6 +29,11 @@
     </nav>
 
     <div class="content">
+        {% if flash %}
+          <div class="flash success">
+            {{flash.message}}
+          </div>
+        {% endif %}
         {% block content %}{% endblock %}
     </div>
 
