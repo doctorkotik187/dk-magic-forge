@@ -51,17 +51,14 @@
 
         is-public (boolean streaming_option)
 
-        project-data {:id (uuid)
-                      :title project_name
+        project-data {:title project_name
                       :description project_description
                       :programming_lang (or tech_stack "clojure")
                       :is_open_source is-public
-                      :list "booked"
-                      :state "pending"
                       :client_budget_cents (if is-public 50 100)}]
 
     (if (seq errors)
-      (-> (response/redirect "/projects/new")
+      (-> (response/redirect "/projects")
           (assoc :flash {:errors errors}))
 
       (try
@@ -75,7 +72,7 @@
                                 ") created!")}))
         (catch Exception e
           (log/error e "Failed to create project")
-          (-> (response/redirect "/projects/new")
+          (-> (response/redirect "/projects")
               (assoc :flash {:errors {:unknown (.getMessage e)}})))))))
 
 ;; -------------------------

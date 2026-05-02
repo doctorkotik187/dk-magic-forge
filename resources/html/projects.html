@@ -12,80 +12,39 @@
         <div class="content">
             <h2>All Projects</h2>
 
-            <!-- Project 1: The Firestorm Web App (DOING) -->
-            <div class="project-card doing">
-                <h3>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/active/1.png" alt="Dwarf 1" class="dwarf">
-                    </div>
-                    <span class="project-title">Project Name: The Firestorm Web App</span>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/active/2.png" alt="Dwarf 2" class="dwarf">
-                    </div>
-                </h3>
-                <p><strong>Description:</strong> A blazing fast web app built with Clojure and React, designed to handle high volumes of real-time data.</p>
-                <p><strong>Status:</strong> <span class="status doing">DOING</span></p>
-            </div>
+            {% for project in projects %}
+            <div class="project-card {{ project.state|lower }}">
 
-            <!-- Project 2: The Rust Hammer (TODO) -->
-            <div class="project-card todo">
                 <h3>
                     <div class="project-images">
-                        <img src="/img/dwarfs/active/1.png" alt="Dwarf 1" class="dwarf">
+                        <img src="/img/dwarfs/active/1.png" class="dwarf">
                     </div>
-                    <span class="project-title">Project Name: The Rust Hammer</span>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/active/2.png" alt="Dwarf 2" class="dwarf">
-                    </div>
-                </h3>
-                <p><strong>Description:</strong> A performance-driven application written in Rust, built for heavy data processing.</p>
-                <p><strong>Status:</strong> <span class="status todo">TODO</span></p>
-            </div>
 
-            <!-- Project 3: RubyForge API (WAITING) -->
-            <div class="project-card waiting">
-                <h3>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/waiting/1.png" alt="Dwarf 1" class="dwarf">
-                    </div>
-                    <span class="project-title">Project Name: RubyForge API</span>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/waiting/2.png" alt="Dwarf 2" class="dwarf">
-                    </div>
-                </h3>
-                <p><strong>Description:</strong> A robust API framework created with Ruby, enabling seamless integrations with external platforms.</p>
-                <p><strong>Status:</strong> <span class="status waiting">WAITING</span></p>
-            </div>
+                    <span class="project-title">
+                        {{ project.title }}
+                    </span>
 
-            <!-- Project 4: The Phoenix Database (TODO) -->
-            <div class="project-card todo">
-                <h3>
                     <div class="project-images">
-                        <img src="/img/dwarfs/active/1.png" alt="Dwarf 1" class="dwarf">
-                    </div>
-                    <span class="project-title">Project Name: The Phoenix Database</span>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/active/2.png" alt="Dwarf 2" class="dwarf">
+                        <img src="/img/dwarfs/active/2.png" class="dwarf">
                     </div>
                 </h3>
-                <p><strong>Description:</strong> A high-performance database designed to scale as easily as it runs.</p>
-                <p><strong>Status:</strong> <span class="status todo">TODO</span></p>
-            </div>
 
-            <!-- Project 5: The Firestorm Database (WAITING) -->
-            <div class="project-card waiting">
-                <h3>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/waiting/1.png" alt="Dwarf 1" class="dwarf">
-                    </div>
-                    <span class="project-title">Project Name: The Firestorm Database</span>
-                    <div class="project-images">
-                        <img src="/img/dwarfs/waiting/2.png" alt="Dwarf 2" class="dwarf">
-                    </div>
-                </h3>
-                <p><strong>Description:</strong> A high-performance database designed to handle dynamic datasets with low latency.</p>
-                <p><strong>Status:</strong> <span class="status waiting">WAITING</span></p>
+                <p>
+                    {{ project.description }}
+                </p>
+
+                <div class="project-meta">
+                    <div>Tech: {{ project.programming_lang }}</div>
+                    <div>State: {{ project.state|upper }}</div>
+                    <div>Priority: {{ project.priority }}</div>
+                    <div>Open Source: {% if project.is_open_source %}Yes 🍻{% else %}No 🔒{% endif %}</div>
+                    <div>Created: {{ project.created_at }}</div>
+                    <div>Updated: {{ project.updated_at }}</div>
+                </div>
+
             </div>
+            {% endfor %}
+
         </div>
     </section>
 {% endblock %}

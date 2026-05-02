@@ -1,5 +1,5 @@
 CREATE TABLE projects (
-    id UUID PRIMARY KEY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
     title VARCHAR(120) NOT NULL,
     description TEXT,
@@ -10,8 +10,8 @@ CREATE TABLE projects (
     list VARCHAR(20) NOT NULL DEFAULT 'inbox',
     state VARCHAR(20) DEFAULT '',
 
-    -- ordering (optional but useful)
-    priority INTEGER DEFAULT 100,
+    -- A, B, C, D
+    priority VARCHAR(1) DEFAULT 'B',
 
     -- client-facing intake signal (NOT your pricing)
     client_budget_cents INTEGER,
