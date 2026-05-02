@@ -11,7 +11,7 @@ CREATE TABLE projects (
     state VARCHAR(20) DEFAULT '',
 
     -- A, B, C, D
-    priority VARCHAR(1) DEFAULT 'B',
+    priority VARCHAR(1) DEFAULT 'b',
 
     -- client-facing intake signal (NOT your pricing)
     client_budget_cents INTEGER,

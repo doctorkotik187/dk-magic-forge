@@ -17,16 +17,12 @@
 
                 <h3>
                     <div class="project-images">
-                        <img src="/img/dwarfs/active/1.png" class="dwarf">
+                        <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png">
                     </div>
 
                     <span class="project-title">
                         {{ project.title }}
                     </span>
-
-                    <div class="project-images">
-                        <img src="/img/dwarfs/active/2.png" class="dwarf">
-                    </div>
                 </h3>
 
                 <p>
@@ -34,9 +30,9 @@
                 </p>
 
                 <div class="project-meta">
-                    <div>Tech: {{ project.programming_lang }}</div>
+                    <div>Tech: {{ project.programming_lang|title }}</div>
                     <div>State: {{ project.state|upper }}</div>
-                    <div>Priority: {{ project.priority }}</div>
+                    <div>Priority: {{ project.priority|upper }}</div>
                     <div>Open Source: {% if project.is_open_source %}Yes 🍻{% else %}No 🔒{% endif %}</div>
                     <div>Created: {{ project.created_at }}</div>
                     <div>Updated: {{ project.updated_at }}</div>

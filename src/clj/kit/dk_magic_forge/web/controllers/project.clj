@@ -12,8 +12,15 @@
 (defn- blank? [s]
   (or (nil? s) (str/blank? s)))
 
-(defn- uuid []
-  (java.util.UUID/randomUUID))
+(defn format-date [ts]
+  (when ts
+    (subs (str ts) 0 10)))
+
+(defn dwarf-group [state]
+  (case (clojure.string/upper-case (or state ""))
+    ("TODO" "DOING") "active"
+    ("WAIT" "WAITING") "waiting"
+    "idle"))
 
 ;; -------------------------
 ;; Queries
@@ -21,8 +28,16 @@
 
 (defn list-projects
   [{:keys [query-fn]} request]
-  (layout/render request "projects.html"
-                 {:projects (query-fn :get-projects {})}))
+  (let [projects (query-fn :get-projects {})
+        projects (map #(let [group (dwarf-group (:state %))]
+                         (-> %
+                             (assoc :dwarf_group group)
+                             (assoc :dwarf (inc (rand-int 8)))
+                             (update :created_at format-date)
+                             (update :updated_at format-date)))
+                      projects)]
+    (layout/render request "projects.html"
+                   {:projects projects})))
 
 (defn get-project
   [{:keys [query-fn]} {{:keys [id]} :path-params :as request}]
