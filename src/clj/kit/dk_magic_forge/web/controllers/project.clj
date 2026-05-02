@@ -32,7 +32,7 @@
       (update :updated_at format-date)))
 
 ;; =========================
-;; LIST VIEWS (CLEAN + DB FILTERED)
+;; LIST VIEWS
 ;; =========================
 
 (defn list-projects
@@ -41,7 +41,8 @@
                       (map enrich-project))]
     (layout/render request "projects.html"
                    {:projects projects
-                    :valid_lists valid-lists})))
+                    :valid_lists valid-lists
+                    :flash (:flash request)})))
 
 (defn list-inbox
   [{:keys [query-fn]} request]
@@ -49,7 +50,8 @@
                       (map enrich-project))]
     (layout/render request "inbox.html"
                    {:projects projects
-                    :valid_lists valid-lists})))
+                    :valid_lists valid-lists
+                    :flash (:flash request)})))
 
 (defn list-someday
   [{:keys [query-fn]} request]
@@ -57,7 +59,8 @@
                       (map enrich-project))]
     (layout/render request "someday.html"
                    {:projects projects
-                    :valid_lists valid-lists})))
+                    :valid_lists valid-lists
+                    :flash (:flash request)})))
 
 (defn list-archives
   [{:keys [query-fn]} request]
@@ -65,7 +68,8 @@
                       (map enrich-project))]
     (layout/render request "archives.html"
                    {:projects projects
-                    :valid_lists valid-lists})))
+                    :valid_lists valid-lists
+                    :flash (:flash request)})))
 
 ;; =========================
 ;; SINGLE PROJECT
@@ -77,9 +81,11 @@
 
   (if-let [project (query-fn :get-project {:id id})]
     (layout/render request "project.html"
-                   {:project (enrich-project project)})
+                   {:project (enrich-project project)
+                    :flash (:flash request)})
     (layout/render request "404.html"
-                   {:error "Project not found"})))
+                   {:error "Project not found"
+                    :flash (:flash request)})))
 
 ;; =========================
 ;; CREATE PROJECT
@@ -142,17 +148,13 @@
 (defn update-list!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
-    {:strs [list]} :form-params}] ;; Ensure we are extracting `list` properly
+    {:strs [list]} :form-params}]
 
-  ;; Validate the 'list' parameter to make sure it's a valid list
-  (if (not (contains? (set valid-lists) list))  ;; Validity check for list
+  (if (not (contains? (set valid-lists) list))
     (-> (response/redirect "/projects")
         (assoc :flash {:error "Invalid list specified."}))
 
     (do
-      ;; Update the project list in the database
-      (query-fn :update-list! {:id (Integer. id) :list list}) ;; Convert id to integer here
-
-      ;; Return the response with a success message
+      (query-fn :update-list! {:id (Integer. id) :list list})
       (-> (response/redirect "/projects")
           (assoc :flash {:message (str "Project moved to " list " successfully.")})))))

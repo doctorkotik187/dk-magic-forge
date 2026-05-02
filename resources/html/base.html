@@ -73,9 +73,17 @@
 <!-- ===================== -->
 <div class="container">
     {% if flash %}
-      <div class="flash success">
-        {{ flash.message }}
-      </div>
+        {% if flash.message %}
+            <div class="notification is-success">
+                {{ flash.message }}
+            </div>
+        {% endif %}
+
+        {% if flash.error %}
+            <div class="notification is-danger">
+                {{ flash.error }}
+            </div>
+        {% endif %}
     {% endif %}
 </div>
 
