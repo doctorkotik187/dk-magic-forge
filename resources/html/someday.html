@@ -1,27 +1,64 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero">
-    <h1>Someday</h1>
-    <p>Ideas frozen in time. Not forgotten — just not ready.</p>
+
+<!-- ===================== -->
+<!-- STASIS VAULT HEADER   -->
+<!-- ===================== -->
+<section class="hero is-medium forge-hero">
+    <div class="hero-body has-text-centered">
+
+        <p class="subtitle is-6">
+            🧊 Stasis Vault // Deferred Constructs
+        </p>
+
+        <h1 class="title is-1">
+            Someday
+        </h1>
+
+        <p class="subtitle">
+            Ideas preserved in stasis. Not forgotten — simply waiting for the right moment.
+        </p>
+
+    </div>
 </section>
 
-<section class="projects-list">
-    <div class="content">
-        <h2>On Ice</h2>
+<!-- ===================== -->
+<!-- FROZEN IDEAS SECTION  -->
+<!-- ===================== -->
+<section class="section">
+    <div class="container">
 
-        <div class="project-card someday">
-            <h3>
-                <span class="project-title">Unforged Ideas</span>
-            </h3>
-            <p>These projects are intentionally paused. They may return when the time is right.</p>
+        <h2 class="title is-3">
+            On Ice
+        </h2>
 
-            <div class="project-images">
-                <img src="/img/dwarfs/waiting/1.png" alt="Ice dwarf tool">
-                <img src="/img/dwarfs/waiting/2.png" alt="Ice dwarf tool">
+        <div class="card">
+            <div class="card-content">
+
+                <p class="title is-4">
+                    ❄ Unforged Ideas Archive
+                </p>
+
+                <p class="content">
+                    These concepts are intentionally paused within the forge system.
+                    They remain stored, monitored, and ready to be reactivated when needed.
+                </p>
+
+                <div class="content">
+                    <p><strong>Status:</strong> Stasis / Dormant</p>
+                    <p><strong>Note:</strong> No active forging is occurring on these projects.</p>
+                </div>
+
+                <div class="project-images" style="display:flex; gap:10px; margin-top:1rem;">
+                    <img src="/img/dwarfs/waiting/1.png" alt="Stasis dwarf 1">
+                    <img src="/img/dwarfs/waiting/2.png" alt="Stasis dwarf 2">
+                </div>
+
             </div>
         </div>
 
     </div>
 </section>
+
 {% endblock %}

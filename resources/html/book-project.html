@@ -1,53 +1,117 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <section class="hero">
-        <h1>🔥 Book Your Project</h1>
-        <p>Select your tech stack. Opt-in for live streaming discount. Let's build!</p>
-    </section>
 
-    <section class="booking-form">
-        <h2>Project Details</h2>
+<!-- ===================== -->
+<!-- SUMMONING HEADER      -->
+<!-- ===================== -->
+<section class="hero is-medium forge-hero">
+    <div class="hero-body has-text-centered">
 
-        <form action="/book-project" method="POST">
-            {% csrf-field %}
+        <p class="subtitle is-6">
+            ⚒ Forge Ritual // Project Summoning
+        </p>
 
-            <div class="form-group">
-                <label for="project-name">Project Name <span class="required">*</span></label>
-                <input type="text" id="project-name" name="project_name"
-                       placeholder="e.g. My Killer App" maxlength="120" required />
-            </div>
+        <h1 class="title is-1">
+            Book a Project
+        </h1>
 
-            <div class="form-group">
-                <label for="project-description">Description <span class="required">*</span></label>
-                <textarea id="project-description" name="project_description"
-                          placeholder="What does it do?" rows="4" required></textarea>
-            </div>
+        <p class="subtitle">
+            Define your idea. The forge will shape it into reality.
+        </p>
 
-            <div class="form-group">
-                <label for="tech-stack">Tech Stack</label>
-                <select id="tech-stack" name="tech_stack">
-                    <option value="clojure">🧬 Clojure</option>
-                    <option value="rust">⚡ Rust</option>
-                    <option value="ruby">💎 Ruby</option>
-                    <option value="python">🐍 Python</option>
-                </select>
-            </div>
-
-            <div class="form-group checkbox-group">
-                <label>
-                    <input type="checkbox" name="streaming_option" />
-                    🔓 Live Stream (50% discount: €0.50 instead of €1.00)
-                </label>
-            </div>
-
-            <div class="form-group">
-                <label>Deposit:</label>
-                <strong>€1.00 (or €0.50 with streaming)</strong>
-                <small>Non-refundable booking fee</small>
-            </div>
-
-            <button type="submit" class="cta-button">🚀 Book Project</button>
-        </form>
     </div>
+</section>
+
+<!-- ===================== -->
+<!-- FORM                  -->
+<!-- ===================== -->
+<section class="section">
+    <div class="container" style="max-width: 750px;">
+
+        <div class="card">
+            <div class="card-content">
+
+                <form action="/book-project" method="POST">
+
+                    {% csrf-field %}
+
+                    <!-- Project Name -->
+                    <div class="field">
+                        <label class="label">
+                            Project Name <span class="has-text-danger">*</span>
+                        </label>
+                        <div class="control">
+                            <input class="input"
+                                   type="text"
+                                   name="project_name"
+                                   placeholder="e.g. My Killer App"
+                                   maxlength="120"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="field">
+                        <label class="label">
+                            Description <span class="has-text-danger">*</span>
+                        </label>
+                        <div class="control">
+                            <textarea class="textarea"
+                                      name="project_description"
+                                      placeholder="What shall be forged?"
+                                      rows="4"
+                                      required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack -->
+                    <div class="field">
+                        <label class="label">Tech Stack</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select name="tech_stack">
+                                    <option value="clojure">🧬 Clojure</option>
+                                    <option value="rust">⚡ Rust</option>
+                                    <option value="ruby">💎 Ruby</option>
+                                    <option value="python">🐍 Python</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Streaming Option -->
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" name="streaming_option">
+                            🔓 Live Stream (50% discount applied during forging)
+                        </label>
+                    </div>
+
+                    <!-- Deposit Info -->
+                    <div class="notification is-dark">
+                        <p><strong>Deposit:</strong> €1.00</p>
+                        <p class="is-size-7">
+                            €0.50 if live streaming is enabled<br>
+                            Non-refundable forging fee
+                        </p>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="field mt-4">
+                        <div class="control">
+                            <button type="submit" class="button is-warning is-fullwidth">
+                                ⚡ Begin Forging Process
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
 {% endblock %}

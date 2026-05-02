@@ -1,24 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="hero">
-    <h1>Inbox</h1>
-    <p>New ideas arrive here. They are not yet shaped in the forge.</p>
+
+<!-- ===================== -->
+<!-- FORGE INBOX HEADER    -->
+<!-- ===================== -->
+<section class="hero is-medium forge-hero">
+    <div class="hero-body has-text-centered">
+
+        <p class="subtitle is-6">
+            📜 Intake Chamber // Incoming Signals
+        </p>
+
+        <h1 class="title is-1">
+            The Forge Inbox
+        </h1>
+
+        <p class="subtitle">
+            New ideas arrive here before they are accepted into the forge.
+        </p>
+
+    </div>
 </section>
 
-<section class="projects-list">
-    <div class="content">
-        <h2>Incoming Projects</h2>
+<!-- ===================== -->
+<!-- INBOX CONTENT         -->
+<!-- ===================== -->
+<section class="section">
+    <div class="container">
 
-        <!-- Example item -->
-        <div class="project-card inbox">
-            <h3>✦ New Project Request</h3>
-            <p><strong>Status:</strong> Waiting to be reviewed</p>
-            <p>All incoming project ideas will appear here before being accepted into the forge.</p>
+        <h2 class="title is-3">Incoming Projects</h2>
 
-            <a href="/book-project" class="cta">Book a Project</a>
+        <div class="card inbox-card">
+            <div class="card-content">
+
+                <p class="title is-4">
+                    ✦ Unforged Request Signal
+                </p>
+
+                <p class="content">
+                    These are raw ideas entering the forge system.
+                    They have not yet been evaluated, structured, or assigned to a chamber.
+                </p>
+
+                <div class="content">
+                    <p>
+                        <strong>Status:</strong> Awaiting evaluation
+                    </p>
+                    <p>
+                        Once accepted, a project will be assigned to the forge workflow and begin its transformation.
+                    </p>
+                </div>
+
+                <a href="/book-project" class="button is-warning mt-4">
+                    ⚡ Send New Request into the Forge
+                </a>
+
+            </div>
         </div>
 
     </div>
 </section>
+
 {% endblock %}

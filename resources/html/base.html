@@ -4,44 +4,99 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="dk-magic-forge: Where your projects are forged and made real">
-    <title>Welcome to DK's Magic Forge</title>
+    <title>DK's Magic Forge</title>
 
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+
+    <!-- Bulma framework -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <!-- Forge theme -->
     <link href="/css/screen.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <h2>DK's Magic Forge</h2>
-        </div>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/book-project">Book Project</a>
-            <a href="/inbox">Inbox</a>
-            <a href="/projects">Projects</a>
-            <a href="/someday">Someday</a>
-            <a href="/archives">Archives</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-        </div>
-    </nav>
+<body class="forge-body">
 
-    <div class="content">
-        {% if flash %}
-          <div class="flash success">
-            {{flash.message}}
-          </div>
-        {% endif %}
-        {% block content %}{% endblock %}
+<!-- ===================== -->
+<!-- FORGE NAVIGATION BAR  -->
+<!-- ===================== -->
+<nav class="navbar forge-nav" role="navigation" aria-label="main navigation">
+
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            ⚒ DK’s Magic Forge
+        </a>
     </div>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2026 DK's Magic Forge. All rights reserved.</p>
-        <p>Made with fire, code, and magic.</p>
-    </footer>
+    <div class="navbar-menu is-active">
+        <div class="navbar-start">
+
+            <a class="navbar-item button is-dark is-small mx-1" href="/">
+                🏠 Home
+            </a>
+
+            <a class="navbar-item button is-warning is-small mx-1" href="/book-project">
+                ⚡ Book Project
+            </a>
+
+            <a class="navbar-item button is-info is-small mx-1" href="/inbox">
+                📥 Inbox
+            </a>
+
+            <a class="navbar-item button is-primary is-small mx-1" href="/projects">
+                ⚔ Projects
+            </a>
+
+            <a class="navbar-item button is-link is-small mx-1" href="/someday">
+                🧊 Someday
+            </a>
+
+            <a class="navbar-item button is-light is-small mx-1" href="/archives">
+                🏛 Archives
+            </a>
+
+            <a class="navbar-item button is-dark is-small mx-1" href="/about">
+                📜 About
+            </a>
+
+            <a class="navbar-item button is-danger is-small mx-1" href="/contact">
+                📡 Contact
+            </a>
+
+        </div>
+    </div>
+
+</nav>
+
+<!-- ===================== -->
+<!-- FLASH MESSAGES        -->
+<!-- ===================== -->
+<div class="container">
+    {% if flash %}
+      <div class="flash success">
+        {{ flash.message }}
+      </div>
+    {% endif %}
+</div>
+
+<!-- ===================== -->
+<!-- MAIN CONTENT          -->
+<!-- ===================== -->
+<section class="section">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</section>
+
+<!-- ===================== -->
+<!-- FOOTER                -->
+<!-- ===================== -->
+<footer class="footer has-background-black-ter has-text-centered">
+    <div class="content has-text-grey-light">
+        <p>⚒ DK’s Magic Forge © 2026</p>
+        <p>Made with fire, code, and controlled chaos.</p>
+    </div>
+</footer>
+
 </body>
 </html>

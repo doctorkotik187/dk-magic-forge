@@ -1,18 +1,60 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Welcome to the Forge!</h1>
-        <p>Where projects are crafted with magic and precision.</p>
-        <a href="/book-project" class="cta">Book Your Project</a>
-    </section>
 
-    <!-- Content Section -->
-    <section>
+<!-- ===================== -->
+<!-- FORGE ENTRY HERO      -->
+<!-- ===================== -->
+<section class="hero is-medium forge-hero">
+    <div class="hero-body has-text-centered">
+
+        <p class="subtitle is-6">
+            ⚒ Welcome, Traveler of the Forge
+        </p>
+
+        <h1 class="title is-1">
+            The Project Forge Awaits
+        </h1>
+
+        <p class="subtitle">
+            Where ideas are melted, shaped, and reforged into reality.
+        </p>
+
+        <a href="/book-project" class="button is-warning is-medium mt-5">
+            ⚡ Summon a Project
+        </a>
+
+    </div>
+</section>
+
+<!-- ===================== -->
+<!-- FORGE LORE SECTION    -->
+<!-- ===================== -->
+<section class="section">
+    <div class="container forge-lore">
+
+        <h2 class="title is-3">
+            The Forge
+        </h2>
+
         <div class="content">
-            <h2>What We Offer</h2>
-            <p>At DK's Magic Forge, we specialize in turning ideas into code. Whether it's a website, an app, or a full-scale project, we have the tools and magic to bring your vision to life.</p>
+            <p>
+                Within these halls, raw ideas are brought before the fire.
+                Each project is shaped by code, intention, and persistence.
+            </p>
+
+            <p>
+                Some are completed and archived in the deep vaults.
+                Others remain in the active flames of development.
+                A few wait patiently in the shadows of the waiting chamber.
+            </p>
+
+            <p>
+                Your task is simple: bring forth your vision, and it shall be forged.
+            </p>
         </div>
-    </section>
+
+    </div>
+</section>
+
 {% endblock %}
