@@ -2,9 +2,6 @@
 
 {% block content %}
 
-<!-- ===================== -->
-<!-- STASIS VAULT HEADER   -->
-<!-- ===================== -->
 <section class="hero is-medium forge-hero">
     <div class="hero-body has-text-centered">
 
@@ -23,42 +20,6 @@
     </div>
 </section>
 
-<!-- ===================== -->
-<!-- FROZEN IDEAS SECTION  -->
-<!-- ===================== -->
-<section class="section">
-    <div class="container">
-
-        <h2 class="title is-3">
-            On Ice
-        </h2>
-
-        <div class="card">
-            <div class="card-content">
-
-                <p class="title is-4">
-                    ❄ Unforged Ideas Archive
-                </p>
-
-                <p class="content">
-                    These concepts are intentionally paused within the forge system.
-                    They remain stored, monitored, and ready to be reactivated when needed.
-                </p>
-
-                <div class="content">
-                    <p><strong>Status:</strong> Stasis / Dormant</p>
-                    <p><strong>Note:</strong> No active forging is occurring on these projects.</p>
-                </div>
-
-                <div class="project-images" style="display:flex; gap:10px; margin-top:1rem;">
-                    <img src="/img/dwarfs/waiting/1.png" alt="Stasis dwarf 1">
-                    <img src="/img/dwarfs/waiting/2.png" alt="Stasis dwarf 2">
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-</section>
+{% include "includes/project_list.html" %}
 
 {% endblock %}

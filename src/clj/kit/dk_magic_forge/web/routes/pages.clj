@@ -27,31 +27,22 @@
   (layout/render request "book-project.html"
                  {:flash (:flash request)}))
 
-(defn inbox [request]
-  (layout/render request "inbox.html"))
-
-(defn someday [request]
-  (layout/render request "someday.html"))
-
-(defn archives [request]
-  (layout/render request "archives.html"))
-
 ;; Routes
 (defn page-routes [opts]
   [["/" {:get home}]
    ["/about" {:get about}]
    ["/contact" {:get contact}]
+
    ["/book-project"
     {:get  book-project
      :post (partial project/create-project! opts)}]
 
-   ["/inbox" {:get inbox}]
-   ["/someday" {:get someday}]
-   ["/archives" {:get archives}]
-
+   ["/inbox" {:get (partial project/list-inbox opts)}]
    ["/projects" {:get (partial project/list-projects opts)}]
-   ["/project/:id" {:get project/get-project}]
+   ["/someday" {:get (partial project/list-someday opts)}]
+   ["/archives" {:get (partial project/list-archives opts)}]
 
+   ["/project/:id" {:get project/get-project}]
    ["/projects/:id/state" {:post project/update-state!}]
    ["/projects/:id/list" {:post project/update-list!}]])
 

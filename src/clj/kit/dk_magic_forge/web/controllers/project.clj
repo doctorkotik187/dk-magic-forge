@@ -5,11 +5,11 @@
    [clojure.string :as str]
    [clojure.tools.logging :as log]))
 
-;; -------------------------
-;; Helpers
-;; -------------------------
+;; =========================
+;; HELPERS
+;; =========================
 
-(defn- blank? [s]
+(defn blank? [s]
   (or (nil? s) (str/blank? s)))
 
 (defn format-date [ts]
@@ -17,37 +17,71 @@
     (subs (str ts) 0 10)))
 
 (defn dwarf-group [state]
-  (case (clojure.string/upper-case (or state ""))
+  (case (str/upper-case (or state ""))
     ("TODO" "DOING") "active"
-    ("WAIT" "WAITING") "waiting"
+    "WAITING" "waiting"
     "idle"))
 
-;; -------------------------
-;; Queries
-;; -------------------------
+(defn enrich-project [p]
+  (-> p
+      (assoc :dwarf_group (dwarf-group (:state p)))
+      (assoc :dwarf (inc (rand-int 8)))
+      (update :created_at format-date)
+      (update :updated_at format-date)))
+
+;; =========================
+;; LIST VIEWS (CLEAN + DB FILTERED)
+;; =========================
 
 (defn list-projects
   [{:keys [query-fn]} request]
-  (let [projects (query-fn :get-projects {})
-        projects (map #(let [group (dwarf-group (:state %))]
-                         (-> %
-                             (assoc :dwarf_group group)
-                             (assoc :dwarf (inc (rand-int 8)))
-                             (update :created_at format-date)
-                             (update :updated_at format-date)))
-                      projects)]
+  (let [projects (->> (query-fn :get-projects-by-list {:list "projects"})
+                      (map enrich-project))]
     (layout/render request "projects.html"
-                   {:projects projects})))
+                   {:projects projects
+                    :active-list "projects"})))
+
+(defn list-inbox
+  [{:keys [query-fn]} request]
+  (let [projects (->> (query-fn :get-projects-by-list {:list "inbox"})
+                      (map enrich-project))]
+    (layout/render request "inbox.html"
+                   {:projects projects
+                    :active-list "inbox"})))
+
+(defn list-someday
+  [{:keys [query-fn]} request]
+  (let [projects (->> (query-fn :get-projects-by-list {:list "someday"})
+                      (map enrich-project))]
+    (layout/render request "someday.html"
+                   {:projects projects
+                    :active-list "someday"})))
+
+(defn list-archives
+  [{:keys [query-fn]} request]
+  (let [projects (->> (query-fn :get-projects-by-list {:list "archives"})
+                      (map enrich-project))]
+    (layout/render request "archives.html"
+                   {:projects projects
+                    :active-list "archives"})))
+
+;; =========================
+;; SINGLE PROJECT
+;; =========================
 
 (defn get-project
-  [{:keys [query-fn]} {{:keys [id]} :path-params :as request}]
-  (if-let [project (query-fn :get-project {:id id})]
-    (layout/render request "project.html" {:project project})
-    (layout/render request "404.html" {:error "Project not found"})))
+  [{:keys [query-fn]}
+   {{:keys [id]} :path-params :as request}]
 
-;; -------------------------
-;; Create
-;; -------------------------
+  (if-let [project (query-fn :get-project {:id id})]
+    (layout/render request "project.html"
+                   {:project (enrich-project project)})
+    (layout/render request "404.html"
+                   {:error "Project not found"})))
+
+;; =========================
+;; CREATE PROJECT
+;; =========================
 
 (defn create-project!
   [{:keys [query-fn]}
@@ -55,7 +89,7 @@
     :form-params
     :as request}]
 
-  (log/debug "FORM PARAMS:" project_name project_description tech_stack streaming_option)
+  (log/debug "FORM:" project_name project_description tech_stack streaming_option)
 
   (let [errors (cond-> {}
                  (blank? project_name)
@@ -70,36 +104,33 @@
                       :description project_description
                       :programming_lang (or tech_stack "clojure")
                       :is_open_source is-public
-                      :client_budget_cents (if is-public 50 100)}]
+                      :client_budget_cents (if is-public 50 100)
+                      :list "inbox"
+                      :state "TODO"}]
 
     (if (seq errors)
-      (-> (response/redirect "/projects")
+      (-> (response/redirect "/book-project")
           (assoc :flash {:errors errors}))
 
       (try
-        (log/debug "INSERTING PROJECT:" project-data)
         (query-fn :create-project! project-data)
 
-        (-> (response/redirect "/projects")
-            (assoc :flash {:message
-                           (str "Project '" project_name "' ("
-                                (if is-public "🔓 Public" "🔒 Private")
-                                ") created!")}))
+        (-> (response/redirect "/inbox")
+            (assoc :flash {:message "Project forged successfully ⚒"}))
+
         (catch Exception e
-          (log/error e "Failed to create project")
-          (-> (response/redirect "/projects")
+          (log/error e "Project creation failed")
+          (-> (response/redirect "/book-project")
               (assoc :flash {:errors {:unknown (.getMessage e)}})))))))
 
-;; -------------------------
-;; Updates
-;; -------------------------
+;; =========================
+;; UPDATES
+;; =========================
 
 (defn update-state!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
     {:keys [state]} :form-params}]
-
-  (log/debug "UPDATE STATE:" id state)
 
   (query-fn :update-state! {:id id :state state})
 
@@ -110,8 +141,6 @@
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
     {:keys [list]} :form-params}]
-
-  (log/debug "UPDATE LIST:" id list)
 
   (query-fn :update-list! {:id id :list list})
 

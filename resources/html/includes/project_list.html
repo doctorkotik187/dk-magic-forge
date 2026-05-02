@@ -1,0 +1,91 @@
+<section class="section">
+    <div class="container">
+        {% if projects|length-is:0 %}
+            <div class="notification is-warning is-light">
+                No deferred projects in the stasis vault.
+            </div>
+        {% endif %}
+
+        {% for project in projects %}
+
+        <div class="card mb-5 project-card status-waiting">
+            <div class="card-content">
+
+                <!-- ===================== -->
+                <!-- HEADER                -->
+                <!-- ===================== -->
+                <div class="level">
+
+                    <!-- Dwarf unit -->
+                    <div class="level-left">
+                        <figure class="image is-48x48">
+                            <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png"
+                                 alt="Dwarf unit in stasis">
+                        </figure>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="level-item has-text-left">
+                        <div>
+                            <p class="title is-4">
+                                {{ project.title }}
+                            </p>
+
+                            <p class="is-size-7 has-text-grey">
+                                Priority {{ project.priority|upper }}
+                                • {{ project.state|upper }}
+                                • {{ project.programming_lang|title }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ===================== -->
+                <!-- DESCRIPTION           -->
+                <!-- ===================== -->
+                <div class="content mt-4">
+                    <p>{{ project.description }}</p>
+                </div>
+
+                <!-- ===================== -->
+                <!-- METADATA              -->
+                <!-- ===================== -->
+                <div class="tags mb-3">
+
+                    <span class="tag status-{{ project.state|lower }}">
+                        {{ project.state|upper }}
+                    </span>
+
+                    <span class="tag">
+                        {{ project.programming_lang|title }}
+                    </span>
+
+                    <span class="tag">
+                        Priority {{ project.priority|upper }}
+                    </span>
+
+                    <span class="tag">
+                        {% if project.is_open_source %}
+                            🔓 Open Source
+                        {% else %}
+                            🔒 Private
+                        {% endif %}
+                    </span>
+
+                </div>
+
+                <!-- ===================== -->
+                <!-- TIMESTAMPS            -->
+                <!-- ===================== -->
+                <div class="is-size-7 has-text-grey">
+                    Created {{ project.created_at }}
+                    • Updated {{ project.updated_at }}
+                </div>
+
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</section>
