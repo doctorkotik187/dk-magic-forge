@@ -8,7 +8,7 @@
 
         {% for project in projects %}
 
-        <div class="card mb-5 project-card status-waiting">
+        <div class="card mb-5 project-card status-{{ project.state|lower }}">
             <div class="card-content">
 
                 <!-- ===================== -->
@@ -81,6 +81,35 @@
                 <div class="is-size-7 has-text-grey">
                     Created {{ project.created_at }}
                     • Updated {{ project.updated_at }}
+                </div>
+
+                <!-- ===================== -->
+                <!-- LIST SELECTION (Dropdown) -->
+                <!-- ===================== -->
+                <div class="level-item">
+                    <form action="/project/{{ project.id }}/update-list" method="POST">
+                        {% csrf-field %}
+                        <div class="field">
+                            <div class="control">
+                                <div class="select is-small">
+                                    <select name="list">
+                                        {% for list in valid_lists %}
+                                            <option value="{{ list }}" {% if project.list = list %}selected{% endif %}>
+                                                {{ list|capitalize }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="button is-small is-info">
+                            <span class="icon is-small">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                            <span>Move</span>
+                        </button>
+                    </form>
                 </div>
 
             </div>

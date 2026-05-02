@@ -9,6 +9,8 @@
 ;; HELPERS
 ;; =========================
 
+(def valid-lists ["inbox" "projects" "someday" "archives"])
+
 (defn blank? [s]
   (or (nil? s) (str/blank? s)))
 
@@ -39,7 +41,7 @@
                       (map enrich-project))]
     (layout/render request "projects.html"
                    {:projects projects
-                    :active-list "projects"})))
+                    :valid_lists valid-lists})))
 
 (defn list-inbox
   [{:keys [query-fn]} request]
@@ -47,7 +49,7 @@
                       (map enrich-project))]
     (layout/render request "inbox.html"
                    {:projects projects
-                    :active-list "inbox"})))
+                    :valid_lists valid-lists})))
 
 (defn list-someday
   [{:keys [query-fn]} request]
@@ -55,7 +57,7 @@
                       (map enrich-project))]
     (layout/render request "someday.html"
                    {:projects projects
-                    :active-list "someday"})))
+                    :valid_lists valid-lists})))
 
 (defn list-archives
   [{:keys [query-fn]} request]
@@ -63,7 +65,7 @@
                       (map enrich-project))]
     (layout/render request "archives.html"
                    {:projects projects
-                    :active-list "archives"})))
+                    :valid_lists valid-lists})))
 
 ;; =========================
 ;; SINGLE PROJECT
@@ -87,7 +89,7 @@
   [{:keys [query-fn]}
    {{:strs [project_name project_description tech_stack streaming_option]}
     :form-params
-    :as request}]
+    :as _request}]
 
   (log/debug "FORM:" project_name project_description tech_stack streaming_option)
 
@@ -140,9 +142,17 @@
 (defn update-list!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
-    {:keys [list]} :form-params}]
+    {:strs [list]} :form-params}] ;; Ensure we are extracting `list` properly
 
-  (query-fn :update-list! {:id id :list list})
+  ;; Validate the 'list' parameter to make sure it's a valid list
+  (if (not (contains? (set valid-lists) list))  ;; Validity check for list
+    (-> (response/redirect "/projects")
+        (assoc :flash {:error "Invalid list specified."}))
 
-  (-> (response/redirect "/projects")
-      (assoc :flash {:message (str "List → " list)})))
+    (do
+      ;; Update the project list in the database
+      (query-fn :update-list! {:id (Integer. id) :list list}) ;; Convert id to integer here
+
+      ;; Return the response with a success message
+      (-> (response/redirect "/projects")
+          (assoc :flash {:message (str "Project moved to " list " successfully.")})))))

@@ -42,9 +42,7 @@
    ["/someday" {:get (partial project/list-someday opts)}]
    ["/archives" {:get (partial project/list-archives opts)}]
 
-   ["/project/:id" {:get project/get-project}]
-   ["/projects/:id/state" {:post project/update-state!}]
-   ["/projects/:id/list" {:post project/update-list!}]])
+   ["/project/:id/update-list" {:post (partial project/update-list! opts)}]])
 
 (def route-data
   {:middleware
