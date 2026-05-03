@@ -33,20 +33,9 @@ INSERT INTO projects
 (title, description, programming_lang, client_budget_cents, is_open_source)
 VALUES (:title, :description, :programming_lang, :client_budget_cents, :is_open_source);
 
--- =========================
--- STATE UPDATE
--- =========================
--- :name update-state! :! :n
-UPDATE projects
-SET state = :state,
-    updated_at = now()
-WHERE id = :id;
-
--- =========================
--- LIST UPDATE
--- =========================
--- :name update-list! :! :n
+-- :name update-project! :! :n
 UPDATE projects
 SET list = :list,
+    state = :state,
     updated_at = now()
 WHERE id = :id;

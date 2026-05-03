@@ -85,19 +85,28 @@ nav, .forge-nav {
 }
 
 /* STATE COLORS */
+/* Status for noop (neutral, lighter background) */
+.status-noop {
+    background: #bdc3c7 !important;  /* Lighter gray */
+    color: #2c3e50 !important;  /* Dark text for better contrast */
+}
+
+/* Status for doing (green for active tasks) */
 .status-doing {
-    background: #2ecc71 !important;
-    color: #0b0b0f !important;
+    background: #2ecc71 !important;  /* Bright green */
+    color: #2c3e50 !important;  /* Dark text for better contrast */
 }
 
+/* Status for todo (amber for pending tasks) */
 .status-todo {
-    background: #f39c12 !important;
-    color: #0b0b0f !important;
+    background: #f39c12 !important;  /* Bright amber */
+    color: #2c3e50 !important;  /* Dark text for better contrast */
 }
 
+/* Status for waiting (muted gray but still bright enough) */
 .status-waiting {
-    background: #7f8c8d !important;
-    color: #0b0b0f !important;
+    background: #95a5a6 !important;  /* Soft gray */
+    color: #2c3e50 !important;  /* Dark text for better contrast */
 }
 
 /* ARCHIVE / SLEEP STATES */

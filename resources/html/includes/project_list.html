@@ -8,7 +8,7 @@
 
         {% for project in projects %}
 
-        <div class="card mb-5 project-card status-{{ project.state|lower }}">
+        <div class="card mb-5 project-card">
             <div class="card-content">
 
                 <!-- ===================== -->
@@ -87,7 +87,7 @@
                 <!-- LIST SELECTION (Dropdown) -->
                 <!-- ===================== -->
                 <div class="level-item">
-                    <form action="/project/{{ project.id }}/update-list" method="POST">
+                    <form action="/project/{{ project.id }}/update-project" method="POST">
                         {% csrf-field %}
                         <div class="field">
                             <div class="control">
@@ -96,6 +96,15 @@
                                         {% for list in valid_lists %}
                                             <option value="{{ list }}" {% if project.list = list %}selected{% endif %}>
                                                 {{ list|capitalize }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="select is-small">
+                                    <select name="state">
+                                        {% for state in valid_states %}
+                                            <option value="{{ state }}" {% if project.state = state %}selected{% endif %}>
+                                                {{ state|upper }}
                                             </option>
                                         {% endfor %}
                                     </select>
@@ -111,7 +120,6 @@
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
 

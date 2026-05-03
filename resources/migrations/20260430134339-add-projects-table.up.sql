@@ -8,7 +8,7 @@ CREATE TABLE projects (
 
     -- GTD / workflow layer
     list VARCHAR(20) NOT NULL DEFAULT 'inbox',
-    state VARCHAR(20) DEFAULT '',
+    state VARCHAR(20) DEFAULT 'noop',
 
     -- A, B, C, D
     priority VARCHAR(1) DEFAULT 'b',

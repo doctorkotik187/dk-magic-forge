@@ -10,7 +10,8 @@
 ;; HELPERS
 ;; =========================
 
-(def valid-lists ["inbox" "projects" "someday" "archives"])
+(def valid-lists #{"inbox" "projects" "someday" "archives"})  ;; Note the #
+(def valid-states #{"doing" "todo" "waiting" "noop"})         ;; Note the #
 
 (defn blank? [s]
   (or (nil? s) (str/blank? s)))
@@ -43,6 +44,7 @@
     (layout/render request "projects.html"
                    {:projects projects
                     :valid_lists valid-lists
+                    :valid_states valid-states
                     :flash (:flash request)})))
 
 (defn list-inbox
@@ -52,6 +54,7 @@
     (layout/render request "inbox.html"
                    {:projects projects
                     :valid_lists valid-lists
+                    :valid_states valid-states
                     :flash (:flash request)})))
 
 (defn list-someday
@@ -61,6 +64,7 @@
     (layout/render request "someday.html"
                    {:projects projects
                     :valid_lists valid-lists
+                    :valid_states valid-states
                     :flash (:flash request)})))
 
 (defn list-archives
@@ -70,6 +74,7 @@
     (layout/render request "archives.html"
                    {:projects projects
                     :valid_lists valid-lists
+                    :valid_states valid-states
                     :flash (:flash request)})))
 
 ;; =========================
@@ -134,26 +139,23 @@
 ;; UPDATES
 ;; =========================
 
-(defn update-state!
+(defn update-project!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
-    {:keys [state]} :form-params}]
-
-  (query-fn :update-state! {:id id :state state})
-
-  (-> (response/redirect "/projects")
-      (assoc :flash {:message (str "State → " state)})))
-
-(defn update-list!
-  [{:keys [query-fn]}
-   {{:keys [id]} :path-params
-    {:strs [list]} :form-params}]
-
-  (if (not (contains? (set valid-lists) list))
-    (-> (response/redirect "/projects")
-        (assoc :flash {:error "Invalid list specified."}))
-
+    {:strs [list state]} :form-params}]
+  (log/debug "Valid lists:" valid-lists "Valid states:" valid-states)
+  (log/debug "Got list:" list "state:" state)
+  (cond
+    (or (not (contains? valid-lists list))
+        (not (contains? valid-states state)))
     (do
-      (query-fn :update-list! {:id (Integer. id) :list list})
+      (log/debug "Validation failed for" list state)
+      (-> (response/redirect (str "/" list))  ;; Use list even on error
+          (assoc :flash {:error "Invalid list or state specified."})))
+
+    :else
+    (do
+      (log/info "Updating project" id "to list:" list "state:" state)
+      (query-fn :update-project! {:id (parse-long id) :list list :state state})
       (-> (http-response/found (str "/" list))
-          (assoc :flash {:message (str "Project moved to " list " successfully.")})))))
+          (assoc :flash {:message "Project updated successfully."})))))
