@@ -2,6 +2,7 @@
   (:require
    [kit.dk-magic-forge.web.pages.layout :as layout]
    [ring.util.response :as response]
+   [ring.util.http-response :as http-response]
    [clojure.string :as str]
    [clojure.tools.logging :as log]))
 
@@ -112,9 +113,7 @@
                       :description project_description
                       :programming_lang (or tech_stack "clojure")
                       :is_open_source is-public
-                      :client_budget_cents (if is-public 50 100)
-                      :list "inbox"
-                      :state "TODO"}]
+                      :client_budget_cents (if is-public 50 100)}]
 
     (if (seq errors)
       (-> (response/redirect "/book-project")
@@ -156,5 +155,5 @@
 
     (do
       (query-fn :update-list! {:id (Integer. id) :list list})
-      (-> (response/redirect "/projects")
+      (-> (http-response/found (str "/" list))
           (assoc :flash {:message (str "Project moved to " list " successfully.")})))))

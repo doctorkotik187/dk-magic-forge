@@ -30,8 +30,8 @@ SELECT * FROM projects WHERE id = :id;
 -- =========================
 -- :name create-project! :! :n
 INSERT INTO projects
-(title, description, programming_lang, client_budget_cents, is_open_source, list, state)
-VALUES (:title, :description, :programming_lang, :client_budget_cents, :is_open_source, :list, :state);
+(title, description, programming_lang, client_budget_cents, is_open_source)
+VALUES (:title, :description, :programming_lang, :client_budget_cents, :is_open_source);
 
 -- =========================
 -- STATE UPDATE
