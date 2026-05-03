@@ -86,3 +86,38 @@ Maybe also use AI to simplify the projet details made by the client and check if
 3. We **sign a simple contract**, and I start working on your project.
 4. **You can cancel** at any time, and pay only for the work completed.
 5. Optional **Test Suite** available for an extra charge, with **1-month bug fixing** included.
+
+## Functionality of DK's Magic Forge Website
+
+### Key Features and Functionalities:
+
+1. **Project Booking System**:
+   - **Booking Form**: Clients can fill out a booking form to suggest their preferred **hourly rate** and provide project details (name, description, tech stack, etc.).
+   - **Client Communication**: Clients can contact you via **email** or **Discord**. A clear communication channel for any queries, project updates, and feedback.
+   - **Booking Confirmation**: After booking, the project is added to your to-do list, but both you and the client will review the scope, rate, and contract terms before finalizing the project.
+
+2. **Project Overview Page**:
+   - **Project List**: A list of all active and past projects, with status (e.g., ongoing, completed, canceled) and project details.
+   - **Clickable Project Cards**: Each project card is clickable, leading to the **detailed project page** where more information is provided.
+
+3. **Project Details Page**:
+   - **Detailed Scope**: Displays project name, description, tech stack, current progress, and **hourly rate** (negotiable).
+   - **Project Tracking**: Shows **hours worked**, **remaining budget**, and **project milestones**.
+   - **Contract & Documents**: Upload and link essential documents like contracts, invoices, and PDFs generated via **Typst** (e.g., Scope of Work, invoices, project terms).
+   - **Test Suite Option**: Clients can choose to add a **test suite** to the project, and it will be noted on the project page.
+
+4. **Payment and Booking Fee**:
+   - **Direct Payment Details**: Clients can see payment details for **direct bank transfer** (no cuts from payment systems).
+   - **Booking Fee**: Clear information on the small non-refundable **booking fee** required to confirm a project in the to-do list.
+   - **Payment Tracking**: Integration for tracking payments made, remaining balance, and milestone payments.
+
+5. **Freedom to Cancel**:
+   - **Cancellation Option**: Both you and the client can cancel projects easily through the site. **No retroactive charges** – work is billed only for hours completed.
+
+6. **Notifications**:
+   - **Client Updates**: Clients should receive notifications when their project is added to the to-do list, and when major milestones or changes happen.
+   - **Payment Status Updates**: Clients are informed when payments are made and when projects enter testing or the bug-fixing period.
+
+7. **Open Source Projects**:
+   - **Open Source Flag**: If a project is open-source, it will be highlighted and available for **streaming** (with a 10% discount for the client).
+   - **Public GitHub Repositories**: Clients can see the code development in real time on **GitHub** (if the project is open-source).
