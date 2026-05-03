@@ -163,3 +163,8 @@ nav, .forge-nav {
 .forge-body {
     min-height: 100vh;
 }
+
+.project-link {
+  display: block;  /* Make the entire card clickable */
+  text-decoration: none;  /* Remove the underline from the link */
+}

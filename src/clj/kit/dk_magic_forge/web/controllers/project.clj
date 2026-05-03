@@ -81,23 +81,26 @@
 ;; SINGLE PROJECT
 ;; =========================
 
-(defn get-project
+(defn show
   [{:keys [query-fn]}
    {{:keys [id]} :path-params :as request}]
-
-  (if-let [project (query-fn :get-project {:id id})]
-    (layout/render request "project.html"
-                   {:project (enrich-project project)
-                    :flash (:flash request)})
+  (if-let [project-id (and id (try (parse-long id) (catch Exception _ nil)))]
+    (if-let [project (query-fn :get-project {:id project-id})]
+      (layout/render request "project.html"
+                     {:project (enrich-project project)
+                      :flash (:flash request)})
+      (layout/render request "404.html"
+                     {:error "Project not found"
+                      :flash (:flash request)}))
     (layout/render request "404.html"
-                   {:error "Project not found"
+                   {:error "Invalid project ID"
                     :flash (:flash request)})))
 
 ;; =========================
 ;; CREATE PROJECT
 ;; =========================
 
-(defn create-project!
+(defn create!
   [{:keys [query-fn]}
    {{:strs [project_name project_description tech_stack streaming_option]}
     :form-params
@@ -139,7 +142,7 @@
 ;; UPDATES
 ;; =========================
 
-(defn update-project!
+(defn update!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
     {:strs [list state]} :form-params}]

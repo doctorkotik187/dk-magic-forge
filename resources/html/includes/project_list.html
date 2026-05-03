@@ -8,120 +8,123 @@
 
         {% for project in projects %}
 
-        <div class="card mb-5 project-card">
-            <div class="card-content">
+        <!-- Wrap the entire card in an <a> tag to make it clickable -->
+        <a href="/project/{{ project.id }}" class="project-link">
+            <div class="card mb-5 project-card">
+                <div class="card-content">
 
-                <!-- ===================== -->
-                <!-- HEADER                -->
-                <!-- ===================== -->
-                <div class="level">
+                    <!-- ===================== -->
+                    <!-- HEADER                -->
+                    <!-- ===================== -->
+                    <div class="level">
 
-                    <!-- Dwarf unit -->
-                    <div class="level-left">
-                        <figure class="image is-48x48">
-                            <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png"
-                                 alt="Dwarf unit in stasis">
-                        </figure>
-                    </div>
-
-                    <!-- Title -->
-                    <div class="level-item has-text-left">
-                        <div>
-                            <p class="title is-4">
-                                {{ project.title }}
-                            </p>
-
-                            <p class="is-size-7 has-text-grey">
-                                Priority {{ project.priority|upper }}
-                                • {{ project.state|upper }}
-                                • {{ project.programming_lang|title }}
-                            </p>
+                        <!-- Dwarf unit -->
+                        <div class="level-left">
+                            <figure class="image is-48x48">
+                                <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png"
+                                     alt="Dwarf unit in stasis">
+                            </figure>
                         </div>
-                    </div>
 
-                </div>
+                        <!-- Title -->
+                        <div class="level-item has-text-left">
+                            <div>
+                                <p class="title is-4">
+                                    {{ project.title }}
+                                </p>
 
-                <!-- ===================== -->
-                <!-- DESCRIPTION           -->
-                <!-- ===================== -->
-                <div class="content mt-4">
-                    <p>{{ project.description }}</p>
-                </div>
-
-                <!-- ===================== -->
-                <!-- METADATA              -->
-                <!-- ===================== -->
-                <div class="tags mb-3">
-
-                    <span class="tag status-{{ project.state|lower }}">
-                        {{ project.state|upper }}
-                    </span>
-
-                    <span class="tag">
-                        {{ project.programming_lang|title }}
-                    </span>
-
-                    <span class="tag">
-                        Priority {{ project.priority|upper }}
-                    </span>
-
-                    <span class="tag">
-                        {% if project.is_open_source %}
-                            🔓 Open Source
-                        {% else %}
-                            🔒 Private
-                        {% endif %}
-                    </span>
-
-                </div>
-
-                <!-- ===================== -->
-                <!-- TIMESTAMPS            -->
-                <!-- ===================== -->
-                <div class="is-size-7 has-text-grey">
-                    Created {{ project.created_at }}
-                    • Updated {{ project.updated_at }}
-                </div>
-
-                <!-- ===================== -->
-                <!-- LIST SELECTION (Dropdown) -->
-                <!-- ===================== -->
-                <div class="level-item">
-                    <form action="/project/{{ project.id }}/update-project" method="POST">
-                        {% csrf-field %}
-                        <div class="field">
-                            <div class="control">
-                                <div class="select is-small">
-                                    <select name="list">
-                                        {% for list in valid_lists %}
-                                            <option value="{{ list }}" {% if project.list = list %}selected{% endif %}>
-                                                {{ list|capitalize }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="select is-small">
-                                    <select name="state">
-                                        {% for state in valid_states %}
-                                            <option value="{{ state }}" {% if project.state = state %}selected{% endif %}>
-                                                {{ state|upper }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+                                <p class="is-size-7 has-text-grey">
+                                    Priority {{ project.priority|upper }}
+                                    • {{ project.state|upper }}
+                                    • {{ project.programming_lang|title }}
+                                </p>
                             </div>
                         </div>
 
-                        <button type="submit" class="button is-small is-info">
-                            <span class="icon is-small">
-                                <i class="fas fa-arrow-right"></i>
-                            </span>
-                            <span>Move</span>
-                        </button>
-                    </form>
+                    </div>
+
+                    <!-- ===================== -->
+                    <!-- DESCRIPTION           -->
+                    <!-- ===================== -->
+                    <div class="content mt-4">
+                        <p>{{ project.description }}</p>
+                    </div>
+
+                    <!-- ===================== -->
+                    <!-- METADATA              -->
+                    <!-- ===================== -->
+                    <div class="tags mb-3">
+
+                        <span class="tag status-{{ project.state|lower }}">
+                            {{ project.state|upper }}
+                        </span>
+
+                        <span class="tag">
+                            {{ project.programming_lang|title }}
+                        </span>
+
+                        <span class="tag">
+                            Priority {{ project.priority|upper }}
+                        </span>
+
+                        <span class="tag">
+                            {% if project.is_open_source %}
+                                🔓 Open Source
+                            {% else %}
+                                🔒 Private
+                            {% endif %}
+                        </span>
+
+                    </div>
+
+                    <!-- ===================== -->
+                    <!-- TIMESTAMPS            -->
+                    <!-- ===================== -->
+                    <div class="is-size-7 has-text-grey">
+                        Created {{ project.created_at }}
+                        • Updated {{ project.updated_at }}
+                    </div>
+
+                    <!-- ===================== -->
+                    <!-- LIST SELECTION (Dropdown) -->
+                    <!-- ===================== -->
+                    <div class="level-item">
+                        <form action="/project/{{ project.id }}/update" method="POST">
+                            {% csrf-field %}
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-small">
+                                        <select name="list">
+                                            {% for list in valid_lists %}
+                                                <option value="{{ list }}" {% if project.list = list %}selected{% endif %}>
+                                                    {{ list|capitalize }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="select is-small">
+                                        <select name="state">
+                                            {% for state in valid_states %}
+                                                <option value="{{ state }}" {% if project.state = state %}selected{% endif %}>
+                                                    {{ state|upper }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="button is-small is-info">
+                                <span class="icon is-small">
+                                    <i class="fas fa-arrow-right"></i>
+                                </span>
+                                <span>Move</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
 
         {% endfor %}
     </div>

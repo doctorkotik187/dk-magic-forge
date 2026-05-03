@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero is-medium">
+    <div class="hero-body has-text-centered">
+        <p class="subtitle is-6">
+            🛠️ Project Overview // {{ project.title }}
+        </p>
+
+        <h1 class="title is-2">
+            {{ project.title }}
+        </h1>
+
+        <p class="subtitle">
+            Status: {{ project.state|capitalize }}
+            • Tech Stack: {{ project.programming_lang|title }}
+            • Priority: {{ project.priority|upper }}
+        </p>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- PROJECT DESCRIPTION      -->
+<!-- ========================= -->
+<section class="section">
+    <div class="container">
+        <div class="card mb-5">
+            <div class="card-content">
+                <p class="title is-4">Description</p>
+                <p>{{ project.description }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- PAYMENT INFORMATION      -->
+<!-- ========================= -->
+<section class="section">
+    <div class="container">
+        <div class="card mb-5">
+            <div class="card-content">
+                <p class="title is-4">Payment Information</p>
+                <p>Status: {{ project.payment_status|capitalize }}</p>
+                <p>Total Price: €{{ project.max_price }}</p>
+                <p>Hourly Rate: €{{ project.hourly_rate }} / hour</p>
+                <p>Hours Worked: {{ project.hours_worked }} hours</p>
+                <p>Paid: €{{ project.amount_paid }}</p>
+                <p>Outstanding Balance: €{{ project.outstanding_balance }}</p>
+
+                {% if project.stream_permission %}
+                    <p>Live Stream: <strong>Enabled</strong></p>
+                {% else %}
+                    <p>Live Stream: <strong>Disabled</strong></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- WORK PROGRESS            -->
+<!-- ========================= -->
+<section class="section">
+    <div class="container">
+        <div class="card mb-5">
+            <div class="card-content">
+                <p class="title is-4">Work Progress</p>
+                <p>Completion: {{ project.progress }}%</p>
+                <progress class="progress is-success" value="{{ project.progress }}" max="100"></progress>
+
+                <div class="mt-3">
+                    <p class="title is-5">Recent Updates</p>
+                    <ul>
+                        {% for update in project.updates %}
+                            <li>{{ update.timestamp }} - {{ update.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- TICKETS                  -->
+<!-- ========================= -->
+<section class="section">
+    <div class="container">
+        <div class="card mb-5">
+            <div class="card-content">
+                <p class="title is-4">Tickets</p>
+                {% if project.tickets|length > 0 %}
+                    <ul>
+                        {% for ticket in project.tickets %}
+                            <li>
+                                <a href="/ticket/{{ ticket.id }}">{{ ticket.title }}</a> - Status: {{ ticket.status|capitalize }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No tickets have been created for this project yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= -->
+<!-- ACTIONS (Cancel, Update)  -->
+<!-- ========================= -->
+<section class="section">
+    <div class="container">
+        <div class="card mb-5">
+            <div class="card-content">
+                <form action="/project/{{ project.id }}/cancel" method="POST">
+                    {% csrf-field %}
+                    <button type="submit" class="button is-danger is-small">Cancel Project</button>
+                </form>
+
+                <form action="/project/{{ project.id }}/update" method="POST" class="mt-3">
+                    {% csrf-field %}
+                    <button type="submit" class="button is-info is-small">Update Project Info</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -35,14 +35,15 @@
 
    ["/book-project"
     {:get  book-project
-     :post (partial project/create-project! opts)}]
+     :post (partial project/create! opts)}]
 
    ["/inbox" {:get (partial project/list-inbox opts)}]
    ["/projects" {:get (partial project/list-projects opts)}]
    ["/someday" {:get (partial project/list-someday opts)}]
    ["/archives" {:get (partial project/list-archives opts)}]
 
-   ["/project/:id/update-project" {:post (partial project/update-project! opts)}]])
+   ["/project/:id" {:get (partial project/show opts)}]
+   ["/project/:id/update" {:post (partial project/update! opts)}]])
 
 (def route-data
   {:middleware
