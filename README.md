@@ -1,53 +1,88 @@
-# dk-magic-forge
+# DK's Magic Forge - Personal Website & Project Booking
 
-Start a [REPL](#repls) in your editor or terminal of choice.
+**Welcome to DK's Magic Forge** – a personal site designed to showcase the projects I’m currently working on and offer clients a streamlined way to **book my services**, **track progress**, and get high-quality, **flexible development**.
 
-Start the server with:
+## The Vibe
+- **Fantasy Magic Forge Theme**: Think of a **fantasy magic forge** where projects are "forged" by your trusty wizard (me). It’s a little bit whimsical, with **flair** and **animations** to make the experience enjoyable.
+- **Personal Branding**: This site not only shows off my work, but also gives clients a **personal touch** – showcasing my skills, personality, and creative process.
+- **No Corporate Overload**: No big corporate jargon, no huge contracts, just **clear**, **simple**, and **efficient communication**.
 
-```clojure
-(go)
-```
+## Project Booking & Terms
 
-The default API is available under http://localhost:3000/api
+### Key Features:
+- **Client-Suggested Hourly Rate**: Clients suggest an hourly rate when booking a project, but I will review and potentially adjust based on the project’s scope.
+- **Booking = To-Do List**: When you book a project, it gets added to my to-do list. But this **doesn’t guarantee** immediate start or commitment yet. We’ll review the scope and finalize details before moving forward.
+- **Cancellation Freedom**: Both the client and I have the freedom to cancel at any time. No retroactive charges, and the client only pays for work already completed.
 
-System configuration is available under `resources/system.edn`.
+### Payment:
+- **Hourly Rate Negotiation**: Once the project scope is reviewed, we’ll agree on an hourly rate.
+- **Booking Fee**: A small non-refundable booking fee (e.g., €5) ensures the project is added to the to-do list.
+- **No Work Until Confirmed**: Work won’t start until both parties have agreed on the rate, scope, and contract terms.
 
-To reload changes:
+### Freedom for Both Parties:
+- **Cancellation at Any Time**: Either party can pull out of the project without any penalties. The client is only billed for the hours worked up until cancellation.
 
-```clojure
-(reset)
-```
+### Test Suite & Bug Fixing:
+- **Test Suite Option**: If the client chooses the test suite option, the project comes with **1 month of free bug fixing** after delivery.
+- **Bug Fixes After Free Period**: Bug fixes beyond the free period will be charged at the agreed hourly rate.
 
-## REPLs
+## Features & Workflow
 
-### Cursive
+1. **Booking a Project**:
+   - Client books a project by filling out a form, suggesting an hourly rate.
+   - **Important**: Booking only places the project on the to-do list, but it **does not guarantee immediate work**. We’ll confirm the rate and scope before starting.
 
-Configure a [REPL following the Cursive documentation](https://cursive-ide.com/userguide/repl.html). Using the default "Run with IntelliJ project classpath" option will let you select an alias from the ["Clojure deps" aliases selection](https://cursive-ide.com/userguide/deps.html#refreshing-deps-dependencies).
+2. **Payment**:
+   - Client suggests an hourly rate when booking the project.
+   - **Small booking fee**: €5 or similar to ensure seriousness, deducted from the total cost once confirmed.
 
-### CIDER
+3. **Scope & Freedom**:
+   - The project will be defined in a **slim Scope of Work (SFD)**. No huge contracts. A simple contract with **max 5 pages** outlining the project details and agreed terms.
+   - **Freedom for both parties**: You can cancel at any time. Only pay for work already completed, and the project can be revised or adjusted as needed.
 
-Use the `cider` alias for CIDER nREPL support (run `clj -M:dev:cider`). See the [CIDER docs](https://docs.cider.mx/cider/basics/up_and_running.html) for more help.
+4. **Test Suite**:
+   - If you want a test suite for your project, it’s available as an option. The test suite includes **1 month of free bug fixing**. Without it, the free bug fix period is reduced to **14 days**.
 
-Note that this alias runs nREPL during development. To run nREPL in production (typically when the system starts), use the kit-nrepl library through the +nrepl profile as described in [the documentation](https://kit-clj.github.io/docs/profiles.html#profiles).
+5. **No Liability**:
+   - I will provide you with a product you can test and use. After that, **you’re free to use the code as you see fit**. I am **not liable for any indirect damages**.
+   - The bug fixing period does not extend beyond the agreed-upon period unless a new issue arises during testing.
 
-### Command Line
+## Project Scope:
+- I work with a **flexible tech stack**: Clojure, Rust, Ruby, Python, etc.
+- You can book **cross-platform web or app projects**. The project can range from MVPs to more advanced custom builds.
+- **Customizable features**: Want to make your project open-source and / or stream the development? **You’ll get a discount (e.g., 10%)**.
 
-Run `clj -M:dev:nrepl` or `make repl`.
+## Pricing:
+- The **max price for an MVP** is agreed upon upfront. Any changes to the scope will result in a **new agreement**, and the price can go higher.
+- **Hourly rate** is negotiated based on the project complexity. Once we finalize the project scope, we both sign off on the contract. I can demand a higher hour rate, when I see fit.
 
-Note that, just like with [CIDER](#cider), this alias runs nREPL during development. To run nREPL in production (typically when the system starts), use the kit-nrepl library through the +nrepl profile as described in [the documentation](https://kit-clj.github.io/docs/profiles.html#profiles).
+## Key Decisions & Policies:
 
-## PROJECT GOAL
-- Name: DK's Magic Forge
-- Something like a fantasy magic forge themed, a little bit of flair and animations
-- Everyone can book a project and see what project(s) I am currently working on
-- name, description, pay 1 EUR to make sure you are a real user, first days of work are "cancelable", it is cheaper if I am allowed to stream the project / make it open source
-- project tech stack can be customized: language (clojure / rust / ruby / python), etc.
-- both websites and cross platform apps are available
-- no SFD! only general design description (with functional params), the purpose is not to make the specifications work, it is to deliver good product
-- pay is per x work hours, you can cancel at any time and get your code / project at that stage
-- for each project we set a max. price, meaning you can be certain that was you wrote in the description will be delivered with that price
-- you can opt-in for hosting, I will charge a margin for running the infra, incidents (X EUR/month).
-- everything else is managed with tickets (bug tracker)
-- no LIABILITY for code (or maybe 1m of testing period)
-- no heavy contract, or heavy conditions you pay for what you see
-- I have a hourly rate and I inform you when a certain treshhold has passed.
+1. **Client Communication**: We’ll use **email**, **Discord**, or similar to communicate during the project.
+2. **Payment System**: The client will pay for the project via **direct transfer** (minimize fees). The initial fee for booking will be made by stripe, to make booking simple.
+3. **Open Source Projects**: If you agree to make the project open source, you get a **10% discount**. I’ll also maybe sometimes stream the development, and you’ll get to follow the progress in real-time.
+4. **Flexibility**: Both parties can **cancel at any time**. If I go on vacation or a project is on hold, **no retroactive charges** are applied.
+
+## Minimal, Simple Contracts:
+- All contracts are **short and sweet**, no 1000-page documents. The contract will cover:
+   - Scope of Work
+   - Payment Terms
+   - Bug Fixing
+   - Cancellation Policy
+   - Ownership of Code
+   - Liability Limitations
+   - Test Suite Option
+   - Termination Clause
+
+### The **"No SFD" Approach**:
+- Projects are **based on functional parameters** and goals. You don’t need a **full spec document** or exhaustive details. The focus is on **delivering value**, not on strict specifications.
+
+### AI Lookover
+Maybe also use AI to simplify the projet details made by the client and check if the project plan is feasible (time, money, scope, etc.)
+
+### Working Process:
+1. **You book the project** and suggest an hourly rate.
+2. **I review the project**, confirm the rate and scope, then proceed.
+3. We **sign a simple contract**, and I start working on your project.
+4. **You can cancel** at any time, and pay only for the work completed.
+5. Optional **Test Suite** available for an extra charge, with **1-month bug fixing** included.
