@@ -1,5 +1,6 @@
 <section class="section">
     <div class="container">
+
         {% if projects|length-is:0 %}
             <div class="notification is-warning is-light">
                 No deferred projects in the stasis vault.
@@ -8,124 +9,118 @@
 
         {% for project in projects %}
 
-        <!-- Wrap the entire card in an <a> tag to make it clickable -->
-        <a href="/project/{{ project.id }}" class="project-link">
-            <div class="card mb-5 project-card">
-                <div class="card-content">
+        <div class="card mb-5 project-card">
+            <div class="card-content">
 
-                    <!-- ===================== -->
-                    <!-- HEADER                -->
-                    <!-- ===================== -->
-                    <div class="level">
+                <!-- TOP ROW -->
+                <div class="level">
 
-                        <!-- Dwarf unit -->
-                        <div class="level-left">
-                            <figure class="image is-48x48">
-                                <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png"
-                                     alt="Dwarf unit in stasis">
-                            </figure>
-                        </div>
+                    <!-- LEFT: project info -->
+                    <div class="level-left">
 
-                        <!-- Title -->
-                        <div class="level-item has-text-left">
-                            <div>
-                                <p class="title is-4">
-                                    {{ project.title }}
-                                </p>
+                        <figure class="image is-48x48 mr-3">
+                            <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png">
+                        </figure>
 
-                                <p class="is-size-7 has-text-grey">
-                                    Priority {{ project.priority|upper }}
-                                    • {{ project.state|upper }}
-                                    • {{ project.programming_lang|title }}
-                                </p>
-                            </div>
+                        <div>
+                            <a href="/project/{{ project.id }}" class="title is-5">
+                                {{ project.title }}
+                            </a>
+
+                            <p class="is-size-7 has-text-grey">
+                                {{ project.state|upper }}
+                                • {{ project.programming_lang|title }}
+                                • Priority {{ project.priority|upper }}
+                            </p>
                         </div>
 
                     </div>
 
-                    <!-- ===================== -->
-                    <!-- DESCRIPTION           -->
-                    <!-- ===================== -->
-                    <div class="content mt-4">
-                        <p>{{ project.description }}</p>
-                    </div>
+                    <!-- RIGHT: controls -->
+                    <div class="level-right">
 
-                    <!-- ===================== -->
-                    <!-- METADATA              -->
-                    <!-- ===================== -->
-                    <div class="tags mb-3">
-
-                        <span class="tag status-{{ project.state|lower }}">
-                            {{ project.state|upper }}
-                        </span>
-
-                        <span class="tag">
-                            {{ project.programming_lang|title }}
-                        </span>
-
-                        <span class="tag">
-                            Priority {{ project.priority|upper }}
-                        </span>
-
-                        <span class="tag">
-                            {% if project.is_open_source %}
-                                🔓 Open Source
-                            {% else %}
-                                🔒 Private
-                            {% endif %}
-                        </span>
-
-                    </div>
-
-                    <!-- ===================== -->
-                    <!-- TIMESTAMPS            -->
-                    <!-- ===================== -->
-                    <div class="is-size-7 has-text-grey">
-                        Created {{ project.created_at }}
-                        • Updated {{ project.updated_at }}
-                    </div>
-
-                    <!-- ===================== -->
-                    <!-- LIST SELECTION (Dropdown) -->
-                    <!-- ===================== -->
-                    <div class="level-item">
                         <form action="/project/{{ project.id }}/update" method="POST">
                             {% csrf-field %}
-                            <div class="field">
+
+                            <div class="field is-grouped is-grouped-right">
+
                                 <div class="control">
                                     <div class="select is-small">
                                         <select name="list">
                                             {% for list in valid_lists %}
-                                                <option value="{{ list }}" {% if project.list = list %}selected{% endif %}>
+                                                <option value="{{ list }}"
+                                                    {% if project.list = list %}selected{% endif %}>
                                                     {{ list|capitalize }}
                                                 </option>
                                             {% endfor %}
                                         </select>
                                     </div>
+                                </div>
+
+                                <div class="control">
                                     <div class="select is-small">
                                         <select name="state">
                                             {% for state in valid_states %}
-                                                <option value="{{ state }}" {% if project.state = state %}selected{% endif %}>
+                                                <option value="{{ state }}"
+                                                    {% if project.state = state %}selected{% endif %}>
                                                     {{ state|upper }}
                                                 </option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
-                            </div>
 
-                            <button type="submit" class="button is-small is-info">
-                                <span class="icon is-small">
-                                    <i class="fas fa-arrow-right"></i>
-                                </span>
-                                <span>Move</span>
-                            </button>
+                                <div class="control">
+                                    <button type="submit" class="button is-small is-info">
+                                        Update
+                                    </button>
+                                </div>
+
+                            </div>
                         </form>
+
                     </div>
+
                 </div>
+
+                <!-- DESCRIPTION -->
+                <div class="content mt-3">
+                    <p>{{ project.description }}</p>
+                </div>
+
+                <!-- TAGS -->
+                <div class="tags mb-2">
+                    <span class="tag status-{{ project.state|lower }}">
+                        {{ project.state|upper }}
+                    </span>
+
+                    <span class="tag">
+                        {{ project.programming_lang|title }}
+                    </span>
+
+                    <span class="tag">
+                        Priority {{ project.priority|upper }}
+                    </span>
+
+                    <span class="tag">
+                        {% if project.is_open_source %}
+                            🔓 Open Source
+                        {% else %}
+                            🔒 Private
+                        {% endif %}
+                    </span>
+                </div>
+
+                <!-- TIMESTAMP -->
+                <div class="is-size-7 has-text-grey">
+                    Created {{ project.created_at }}
+                    • Updated {{ project.updated_at }}
+                </div>
+
             </div>
-        </a>
+        </div>
 
         {% endfor %}
+
     </div>
 </section>
