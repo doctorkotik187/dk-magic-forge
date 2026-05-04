@@ -6,8 +6,16 @@
    [clojure.string :as str]
    [clojure.tools.logging :as log]))
 
+;; ------------------------------------------------------------
+;; constants
+;; ------------------------------------------------------------
+
 (def valid-lists #{"inbox" "projects" "someday" "archives"})
 (def valid-states #{"doing" "todo" "waiting" "noop" "done" "canceled"})
+
+;; ------------------------------------------------------------
+;; helpers
+;; ------------------------------------------------------------
 
 (defn blank? [s]
   (or (nil? s) (str/blank? s)))
@@ -16,18 +24,41 @@
   (when ts
     (subs (str ts) 0 10)))
 
+(defn cents->dollars [cents]
+  (when cents
+    (/ cents 100.0)))
+
+(defn minutes->hours [minutes]
+  (when minutes
+    (/ minutes 60.0)))
+
 (defn dwarf-group [state]
   (case (str/upper-case (or state ""))
     ("TODO" "DOING") "active"
     "WAITING" "waiting"
     "idle"))
 
+;; ------------------------------------------------------------
+;; core view model
+;; ------------------------------------------------------------
+
 (defn enrich-project [p]
   (-> p
+      ;; derived UI fields
       (assoc :dwarf_group (dwarf-group (:state p)))
       (assoc :dwarf (inc (rand-int 8)))
+
+      ;; time formatting
       (update :created_at format-date)
-      (update :updated_at format-date)))
+      (update :updated_at format-date)
+
+      ;; finance + time conversion
+      (assoc :hours_worked (minutes->hours (:minutes_worked p)))
+      (assoc :hourly_rate (cents->dollars (:hourly_rate_cents p)))))
+
+;; ------------------------------------------------------------
+;; list views
+;; ------------------------------------------------------------
 
 (defn list-projects
   [{:keys [query-fn]} request]
@@ -69,12 +100,16 @@
                     :valid_states valid-states
                     :flash (:flash request)})))
 
+;; ------------------------------------------------------------
+;; single project
+;; ------------------------------------------------------------
+
 (defn show
   [{:keys [query-fn]}
    {{:keys [id]} :path-params :as request}]
   (if-let [project-id (and id (try (parse-long id) (catch Exception _ nil)))]
     (if-let [project (query-fn :get-project {:id project-id})]
-      (layout/render request "project.html"
+      (layout/render request "project/show.html"
                      {:project (enrich-project project)
                       :flash (:flash request)})
       (layout/render request "404.html"
@@ -83,6 +118,24 @@
     (layout/render request "404.html"
                    {:error "Invalid project ID"
                     :flash (:flash request)})))
+
+(defn edit
+  [{:keys [query-fn]}
+   {{:keys [id]} :path-params :as request}]
+  (if-let [project-id (and id (try (parse-long id) (catch Exception _ nil)))]
+    (if-let [project (query-fn :get-project {:id project-id})]
+      (layout/render request "project/edit.html"
+                     {:project (enrich-project project)
+                      :flash (:flash request)})
+      (layout/render request "404.html"
+                     {:error "Project not found"
+                      :flash (:flash request)}))
+    (layout/render request "404.html"
+                   {:error "Invalid project ID"
+                    :flash (:flash request)})))
+;; ------------------------------------------------------------
+;; create
+;; ------------------------------------------------------------
 
 (defn create!
   [{:keys [query-fn]}
@@ -139,18 +192,25 @@
           (-> (response/redirect "/booking")
               (assoc :flash {:errors {:unknown (.getMessage e)}})))))))
 
+;; ------------------------------------------------------------
+;; update
+;; ------------------------------------------------------------
+
 (defn update!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
     {:strs [list state]} :form-params}]
+
   (log/debug "Valid lists:" valid-lists "Valid states:" valid-states)
   (log/debug "Got list:" list "state:" state)
+
   (cond
     (or (not (contains? valid-lists list))
         (not (contains? valid-states state)))
+
     (do
       (log/debug "Validation failed for" list state)
-      (-> (response/redirect (str "/" list))  ;; Use list even on error
+      (-> (response/redirect (str "/" list))
           (assoc :flash {:error "Invalid list or state specified."})))
 
     :else

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+
+    {% block header %}{% endblock %}
+
+    <div class="columns">
+      <div class="column is-8">
+        {% block main %}{% endblock %}
+      </div>
+
+      <div class="column is-4">
+        <div class="content">
+          <h2 class="title is-6">Status</h2>
+          <p>{{ project.list|capitalize }} / {{ project.state|upper }}</p>
+          <p class="mt-3">
+            <strong>Personal:</strong> {{ project.is_personal_label }}<br>
+            <strong>Open source:</strong> {{ project.is_open_source_label }}<br>
+            <strong>Tests:</strong> {{ project.has_test_suite_label }}
+          </p>
+          <hr>
+          <p>
+            <strong>ID:</strong> {{ project.id }}<br>
+            <strong>Created:</strong> {{ project.created_at }}<br>
+            <strong>Updated:</strong> {{ project.updated_at }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {% block upload %}
+    <div class="content mt-5">
+      <h2 class="title is-6">Scrolls & Documents</h2>
+      <form action="/project/{{ project.id }}/upload" method="POST" enctype="multipart/form-data">
+        {% csrf-field %}
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <div class="file is-fullwidth is-primary has-name">
+              <label class="file-label">
+                <input class="file-input" type="file" name="pdf" accept="application/pdf">
+                <span class="file-cta">
+                  <span class="file-label">Choose scroll (PDF)</span>
+                </span>
+                <span class="file-name">No scroll selected</span>
+              </label>
+            </div>
+          </div>
+          <div class="control">
+            <button class="button is-dark" style="background: #2b2b2b; border: none;">Upload</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    {% endblock %}
+
+  </div>
+</section>
+{% endblock %}

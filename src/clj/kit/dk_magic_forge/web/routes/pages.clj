@@ -43,6 +43,7 @@
    ["/archives" {:get (partial project/list-archives opts)}]
 
    ["/project/:id" {:get (partial project/show opts)}]
+   ["/project/:id/edit" {:get (partial project/edit opts)}]
    ["/project/:id/update" {:post (partial project/update! opts)}]])
 
 (def route-data

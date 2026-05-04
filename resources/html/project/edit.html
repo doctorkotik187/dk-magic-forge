@@ -1,0 +1,146 @@
+{% extends "project/_base.html" %}
+
+{% block header %}
+<div class="mb-6">
+  <h1 class="title is-2">✏️ Edit {{ project.title }}</h1>
+  <form action="/project/{{ project.id }}" method="POST">
+    {% csrf-field %}
+    <div class="buttons mt-2">
+      <button class="button is-small is-primary" type="submit">💾 Save forge</button>
+      <a class="button is-small is-light" href="/project/{{ project.id }}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block main %}
+<form action="/project/{{ project.id }}" method="POST">
+  {% csrf-field %}
+
+  <div class="content">
+    <h2 class="title is-6">Title</h2>
+    <div class="field">
+      <div class="control">
+        <input class="input" type="text" name="title" value="{{ project.title }}" required />
+      </div>
+    </div>
+  </div>
+
+  <div class="content mt-5">
+    <h2 class="title is-6">Description</h2>
+    <div class="field">
+      <div class="control">
+        <textarea class="textarea" name="description" rows="5" required>{{ project.description }}</textarea>
+      </div>
+    </div>
+  </div>
+
+  {% if project.details %}
+  <div class="content mt-5">
+    <h2 class="title is-6">Details</h2>
+    <div class="field">
+      <div class="control">
+        <textarea class="textarea" name="details" rows="5">{{ project.details }}</textarea>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="content mt-5">
+    <h2 class="title is-6">Tech Stack</h2>
+    <div class="field">
+      <label class="label">Programming Language</label>
+      <div class="control">
+        <input class="input" type="text" name="programming_lang" value="{{ project.programming_lang }}" />
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Has test suite?</label>
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" name="has_test_suite" value="true" {% if project.has_test_suite %}checked{% endif %}>
+          Yes
+        </label>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Open source?</label>
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" name="is_open_source" value="true" {% if project.is_open_source %}checked{% endif %}>
+          Yes
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="content mt-5">
+    <h2 class="title is-6">GTD Productivity</h2>
+    <div class="field">
+      <label class="label">List</label>
+      <div class="control">
+        <div class="select">
+          <select name="list">
+            <option value="inbox" {% if project.list = 'inbox' %}selected{% endif %}>Inbox</option>
+            <option value="projects" {% if project.list = 'projects' %}selected{% endif %}>Projects</option>
+            <option value="someday" {% if project.list = 'someday' %}selected{% endif %}>Someday</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">State</label>
+      <div class="control">
+        <div class="select">
+          <select name="state">
+            <option value="noop" {% if project.state = 'noop' %}selected{% endif %}>Noop</option>
+            <option value="active" {% if project.state = 'active' %}selected{% endif %}>Active</option>
+            <option value="done" {% if project.state = 'done' %}selected{% endif %}>Done</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Priority</label>
+      <div class="control">
+        <div class="select">
+          <select name="priority">
+            <option value="a" {% if project.priority = 'a' %}selected{% endif %}>A</option>
+            <option value="b" {% if project.priority = 'b' %}selected{% endif %}>B</option>
+            <option value="c" {% if project.priority = 'c' %}selected{% endif %}>C</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content mt-5">
+    <h2 class="title is-6">Finance</h2>
+    <div class="field is-grouped">
+      <div class="control is-expanded">
+        <label class="label">Hourly Rate ($)</label>
+        <input class="input" type="number" name="hourly_rate" step="0.01" value="{{ project.hourly_rate }}" />
+      </div>
+      <div class="control">
+        <label class="label">Hours Worked</label>
+        <input class="input" type="number" name="hours_worked" step="0.1" value="{{ project.hours_worked }}" />
+      </div>
+    </div>
+  </div>
+
+  <div class="content mt-5">
+    <h2 class="title is-6">Personal?</h2>
+    <div class="field">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" name="is_personal" value="true" {% if project.is_personal %}checked{% endif %}>
+          Personal project
+        </label>
+      </div>
+    </div>
+  </div>
+
+</form>
+{% endblock %}
+
+{% block upload %}{% endblock %}
