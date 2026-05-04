@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero is-medium forge-hero">
+    <div class="hero-body has-text-centered">
+
+        <p class="subtitle is-6">
+            ⚒ Forge Ritual // Project Summoning
+        </p>
+
+        <h1 class="title is-1">
+            Book a Project
+        </h1>
+
+        <p class="subtitle">
+            Describe your vision. The Forge will shape it into form.
+        </p>
+
+    </div>
+</section>
+
+<section class="section">
+    <div class="container" style="max-width: 750px;">
+
+        <div class="card">
+            <div class="card-content">
+
+                <form action="/booking" method="POST">
+                    {% csrf-field %}
+
+                    <p class="help mb-5">
+                        This is a preliminary summoning — rough intent is enough.
+                        We will refine scope, rate, and terms together before forging begins.
+                    </p>
+
+                    <!-- TITLE -->
+                    <div class="field">
+                        <label class="label">Project Name <span class="has-text-danger">*</span></label>
+                        <div class="control">
+                            <input class="input"
+                                   type="text"
+                                   name="project_title"
+                                   placeholder="e.g. enchanted-steel-armor"
+                                   maxlength="120"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="field">
+                        <label class="label">Vision <span class="has-text-danger">*</span></label>
+                        <div class="control">
+                            <textarea class="textarea"
+                                      name="project_description"
+                                      placeholder="Describe what you wish to forge..."
+                                      rows="4"
+                                      required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- TECH STACK -->
+                    <div class="field">
+                        <label class="label">Arcane Tools (Tech Stack)</label>
+
+                        <div class="control mb-3">
+                            <div class="select is-fullwidth">
+                                <select name="tech_stack">
+                                    <option value="clojure">☯️ Clojure</option>
+                                    <option value="rust">🦀 Rust</option>
+                                    <option value="ruby">💎 Ruby</option>
+                                    <option value="python">🐍 Python</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field mb-2">
+                            <label class="checkbox">
+                                <input type="checkbox" name="has_test_suite">
+                                Include Test Forge (adds structured testing + 1 month bug coverage)
+                            </label>
+                        </div>
+
+                        <div class="field">
+                            <label class="checkbox">
+                                <input type="checkbox" name="is_open_source">
+                                Open the Forge (open-source + live development, -10% cost)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- FINANCE -->
+                    <div class="field">
+                        <label class="label">Offering</label>
+
+                        <div class="field">
+                            <label class="label is-small">
+                                Suggested hourly tribute (USD)
+                            </label>
+
+                            <div class="control">
+                                <input class="input"
+                                       type="number"
+                                       name="hourly_rate"
+                                       placeholder="e.g. 50">
+                            </div>
+
+                            <p class="help">
+                                Final rate is confirmed after scope alignment.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- DEPOSIT -->
+                    <div class="notification is-dark">
+                        <p><strong>Binding Sigil (Deposit):</strong> $5.00</p>
+                        <p class="is-size-7 mt-2">
+                            Required to inscribe your project into the Forge queue.<br>
+                            Start time is not guaranteed until scope confirmation.
+                        </p>
+                    </div>
+
+                    <!-- SUBMIT -->
+                    <div class="field mt-4">
+                        <div class="control">
+                            <button type="submit" class="button is-warning is-fullwidth">
+                                📜 Begin Forging
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -15,16 +15,19 @@
     #(wrap-anti-forgery % {:error-response error-page})))
 
 (defn home [request]
-  (layout/render request "home.html"))
+  (layout/render request "home.html"
+                 {:flash (:flash request)}))
 
 (defn about [request]
-  (layout/render request "about.html"))
+  (layout/render request "about.html"
+                 {:flash (:flash request)}))
 
 (defn contact [request]
-  (layout/render request "contact.html"))
+  (layout/render request "contact.html"
+                 {:flash (:flash request)}))
 
-(defn book-project [request]
-  (layout/render request "book-project.html"
+(defn booking [request]
+  (layout/render request "booking.html"
                  {:flash (:flash request)}))
 
 ;; Routes
@@ -32,10 +35,7 @@
   [["/" {:get home}]
    ["/about" {:get about}]
    ["/contact" {:get contact}]
-
-   ["/book-project"
-    {:get  book-project
-     :post (partial project/create! opts)}]
+   ["/booking" {:get booking :post (partial project/create! opts)}]
 
    ["/inbox" {:get (partial project/list-inbox opts)}]
    ["/projects" {:get (partial project/list-projects opts)}]
