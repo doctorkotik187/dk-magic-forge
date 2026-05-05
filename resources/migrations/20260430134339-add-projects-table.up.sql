@@ -5,7 +5,7 @@ CREATE TABLE projects (
 
     title VARCHAR(120) NOT NULL,
     description TEXT NOT NULL,
-    details TEXT,
+    details TEXT DEFAULT 'Put a more detailed explanation of the future vision and purpose of the project.',
     is_personal BOOLEAN DEFAULT false,
 
     -- Tech

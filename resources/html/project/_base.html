@@ -13,14 +13,14 @@
 
       <div class="column is-4">
         <div class="content">
-          <h2 class="title is-6">Status</h2>
-          <p>{{ project.list|capitalize }} / {{ project.state|upper }}</p>
-          <p class="mt-3">
-            <strong>Personal:</strong> {{ project.is_personal_label }}<br>
-            <strong>Open source:</strong> {{ project.is_open_source_label }}<br>
-            <strong>Tests:</strong> {{ project.has_test_suite_label }}
+          <h2 class="title is-6">Productivity</h2>
+          <p>
+            <strong>List:</strong> {{ project.list|capitalize }}<br>
+            <strong>State:</strong> {{ project.state|upper }}<br>
+            <strong>Priority:</strong> {{ project.priority|upper }}<br>
           </p>
           <hr>
+          <h2 class="title is-6">Metadata</h2>
           <p>
             <strong>ID:</strong> {{ project.id }}<br>
             <strong>Created:</strong> {{ project.created_at }}<br>
@@ -32,23 +32,23 @@
 
     {% block upload %}
     <div class="content mt-5">
-      <h2 class="title is-6">Scrolls & Documents</h2>
+      <h2 class="title is-6">PDF Scrolls</h2>
       <form action="/project/{{ project.id }}/upload" method="POST" enctype="multipart/form-data">
         {% csrf-field %}
         <div class="field has-addons">
-          <div class="control is-expanded">
-            <div class="file is-fullwidth is-primary has-name">
+          <div class="control">
+            <div class="file is-primary has-name">
               <label class="file-label">
                 <input class="file-input" type="file" name="pdf" accept="application/pdf">
                 <span class="file-cta">
-                  <span class="file-label">Choose scroll (PDF)</span>
+                  <span class="file-label">Choose PDF scroll</span>
                 </span>
                 <span class="file-name">No scroll selected</span>
               </label>
             </div>
           </div>
           <div class="control">
-            <button class="button is-dark" style="background: #2b2b2b; border: none;">Upload</button>
+            <button class="button is-primary">Upload</button>
           </div>
         </div>
       </form>
