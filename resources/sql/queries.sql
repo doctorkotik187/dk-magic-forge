@@ -49,6 +49,7 @@ SET title = COALESCE(:title, title),
     priority = COALESCE(:priority, priority),
     hourly_rate_cents = COALESCE(:hourly_rate_cents, hourly_rate_cents),
     minutes_worked = COALESCE(:minutes_worked, minutes_worked),
+    max_budget_cents = COALESCE(:max_budget_cents, max_budget_cents),
     updated_at = now()
 WHERE id = :id;
 

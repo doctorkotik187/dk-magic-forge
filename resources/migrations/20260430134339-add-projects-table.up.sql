@@ -21,6 +21,7 @@ CREATE TABLE projects (
     -- finance
     hourly_rate_cents INTEGER DEFAULT 0,
     minutes_worked INTEGER DEFAULT 0,
+    max_budget_cents INTEGER DEFAULT 0,
 
     -- lifecycle timestamps
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

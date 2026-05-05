@@ -121,3 +121,8 @@ Maybe also use AI to simplify the projet details made by the client and check if
 7. **Open Source Projects**:
    - **Open Source Flag**: If a project is open-source, it will be highlighted and available for **streaming** (with a 10% discount for the client).
    - **Public GitHub Repositories**: Clients can see the code development in real time on **GitHub** (if the project is open-source).
+
+
+## TODO
+- [ ] add 404.html
+- [ ]

@@ -59,6 +59,7 @@
       (update :created_at format-date)
       (update :updated_at format-date)
       (assoc :hours_worked_display (minutes->hours (:minutes_worked p)))
+      (assoc :max_budget_display (cents->dollars (:max_budget_cents p)))
       (assoc :hourly_rate_display (cents->dollars (:hourly_rate_cents p)))))
 
 (defn project-id-or-nil [id]
@@ -75,6 +76,7 @@
    :list (get params "list")
    :state (get params "state")
    :priority (get params "priority")
+   :max_budget_cents (some-> (get params "max_budget") parse-long-safe (* 100))
    :hourly_rate_cents (some-> (get params "hourly_rate") parse-long-safe (* 100))
    :minutes_worked (some-> (get params "hours_worked") parse-long-safe (* 60))})
 
