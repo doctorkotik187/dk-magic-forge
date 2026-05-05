@@ -71,6 +71,19 @@
                                 </div>
 
                                 <div class="control">
+                                    <div class="select is-small">
+                                        <select name="priority">
+                                            {% for priority in valid_priorities %}
+                                                <option value="{{ priority }}"
+                                                    {% if project.priority = priority %}selected{% endif %}>
+                                                    {{ priority|upper }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="control">
                                     <button type="submit" class="button is-small is-info">
                                         Update
                                     </button>
@@ -104,9 +117,9 @@
 
                     <span class="tag">
                         {% if project.is_open_source %}
-                            🔓 Open Source
+                            🍻 Open Source
                         {% else %}
-                            🔒 Private
+                            🔐 Closed Source
                         {% endif %}
                     </span>
                 </div>

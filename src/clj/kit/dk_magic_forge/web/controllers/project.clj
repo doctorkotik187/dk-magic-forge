@@ -12,6 +12,7 @@
 
 (def valid-lists #{"inbox" "projects" "someday" "archives"})
 (def valid-states #{"doing" "todo" "waiting" "noop" "done" "canceled"})
+(def valid-priorities #{"a" "b" "c" "d"})
 
 ;; ------------------------------------------------------------
 ;; helpers
@@ -33,9 +34,9 @@
     (/ minutes 60.0)))
 
 (defn dwarf-group [state]
-  (case (str/upper-case (or state ""))
-    ("TODO" "DOING") "active"
-    "WAITING" "waiting"
+  (case (str/lower-case (or state ""))
+    ("todo" "doing") "active"
+    "waiting" "waiting"
     "idle"))
 
 ;; ------------------------------------------------------------
@@ -68,6 +69,7 @@
                    {:projects projects
                     :valid_lists valid-lists
                     :valid_states valid-states
+                    :valid_priorities valid-priorities
                     :flash (:flash request)})))
 
 (defn list-inbox
@@ -78,6 +80,7 @@
                    {:projects projects
                     :valid_lists valid-lists
                     :valid_states valid-states
+                    :valid_priorities valid-priorities
                     :flash (:flash request)})))
 
 (defn list-someday
@@ -88,6 +91,7 @@
                    {:projects projects
                     :valid_lists valid-lists
                     :valid_states valid-states
+                    :valid_priorities valid-priorities
                     :flash (:flash request)})))
 
 (defn list-archives
@@ -98,6 +102,7 @@
                    {:projects projects
                     :valid_lists valid-lists
                     :valid_states valid-states
+                    :valid_priorities valid-priorities
                     :flash (:flash request)})))
 
 ;; ------------------------------------------------------------
@@ -196,26 +201,18 @@
 ;; update
 ;; ------------------------------------------------------------
 
+(defn present-keys [m]
+  (into {} (remove (comp nil? val) m)))
+
 (defn update!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
-    {:strs [list state]} :form-params}]
-
-  (log/debug "Valid lists:" valid-lists "Valid states:" valid-states)
-  (log/debug "Got list:" list "state:" state)
-
-  (cond
-    (or (not (contains? valid-lists list))
-        (not (contains? valid-states state)))
-
-    (do
-      (log/debug "Validation failed for" list state)
-      (-> (response/redirect (str "/" list))
-          (assoc :flash {:error "Invalid list or state specified."})))
-
-    :else
-    (do
-      (log/info "Updating project" id "to list:" list "state:" state)
-      (query-fn :update-project! {:id (parse-long id) :list list :state state})
-      (-> (http-response/found (str "/" list))
-          (assoc :flash {:message "Project updated successfully."})))))
+    params :form-params}]
+  (let [id (parse-long id)
+        existing (query-fn :project-by-id {:id id})
+        patch (-> params
+                  (update "hourly_rate" some-> parse-long)
+                  (update "hours_worked" some-> parse-long)
+                  present-keys)
+        updated (merge existing patch)]
+    (query-fn :update-project! updated)))

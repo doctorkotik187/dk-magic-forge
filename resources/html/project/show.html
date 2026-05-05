@@ -1,19 +1,5 @@
 {% extends "project/_base.html" %}
 
-{% block header %}
-<div class="mb-6">
-  <h1 class="title is-2">{{ project.title }}</h1>
-   <p class="subtitle is-6">
-     {% if project.is_personal %}Personal{% else %}Requested{% endif %}
-  </p>
-  <a class="button is-small is-dark mt-2"
-     style="background: #2b2b2b; border: none;"
-     href="/project/{{ project.id }}/edit">
-    ✏️ Edit forge
-  </a>
-</div>
-{% endblock %}
-
 {% block main %}
 <div class="content">
   <h2 class="title is-6">Description</h2>
@@ -41,5 +27,11 @@
     $ {{ project.hourly_rate }} per hour
   </p>
 </div>
+
+<a class="button is-small is-dark mt-2"
+   style="background: #2b2b2b; border: none;"
+   href="/project/{{ project.id }}/edit">
+  ✏️ Edit forge
+</a>
 
 {% endblock %}

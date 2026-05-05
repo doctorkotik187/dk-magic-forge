@@ -27,7 +27,17 @@ hourly_rate_cents
 
 -- :name update-project! :! :n
 UPDATE projects
-SET list = :list,
+SET title = :title,
+    description = :description,
+    details = :details,
+    is_personal = :is_personal,
+    programming_lang = :programming_lang,
+    has_test_suite = :has_test_suite,
+    is_open_source = :is_open_source,
+    list = :list,
     state = :state,
+    priority = :priority,
+    hourly_rate_cents = :hourly_rate_cents,
+    minutes_worked = :minutes_worked,
     updated_at = now()
 WHERE id = :id;

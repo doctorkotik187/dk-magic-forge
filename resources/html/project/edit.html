@@ -1,21 +1,12 @@
 {% extends "project/_base.html" %}
 
-{% block header %}
-<div class="mb-6">
-  <h1 class="title is-2">✏️ Edit {{ project.title }}</h1>
-  <form action="/project/{{ project.id }}" method="POST">
-    {% csrf-field %}
-    <div class="buttons mt-2">
-      <button class="button is-small is-primary" type="submit">💾 Save</button>
-      <a class="button is-small is-warning" href="/project/{{ project.id }}">❌ Cancel</a>
-    </div>
-  </form>
-</div>
-{% endblock %}
-
 {% block main %}
-<form action="/project/{{ project.id }}" method="POST">
+<form action="/project/{{ project.id }}/update" method="POST">
   {% csrf-field %}
+
+  <input type="hidden" name="list" value="{{ project.list }}">
+  <input type="hidden" name="state" value="{{ project.state }}">
+  <input type="hidden" name="priority" value="{{ project.priority }}">
 
   <div class="content">
     <h2 class="title is-6">Title</h2>
@@ -93,6 +84,11 @@
         <input class="input" type="number" name="hourly_rate" step="0.01" value="{{ project.hourly_rate }}" />
       </div>
     </div>
+  </div>
+
+  <div class="buttons mt-2">
+    <button class="button is-small is-primary" type="submit">💾 Save</button>
+    <a class="button is-small is-warning" href="/project/{{ project.id }}">❌ Cancel</a>
   </div>
 
 </form>

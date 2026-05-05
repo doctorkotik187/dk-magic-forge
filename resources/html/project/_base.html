@@ -4,7 +4,20 @@
 <section class="section">
   <div class="container">
 
-    {% block header %}{% endblock %}
+    <div class="mb-6">
+
+      <div class="is-flex is-align-items-center">
+        <h1 class="title is-2 mb-0">{{ project.title }}</h1>
+        <figure class="image is-48x48 ml-3">
+          <img src="/img/dwarfs/{{ project.dwarf_group }}/{{ project.dwarf }}.png">
+        </figure>
+      </div>
+
+      <p class="subtitle is-6">
+        {% if project.is_personal %}Personal{% else %}Requested{% endif %}
+      </p>
+
+    </div>
 
     <div class="columns">
       <div class="column is-8">
