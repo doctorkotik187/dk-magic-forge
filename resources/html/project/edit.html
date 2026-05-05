@@ -77,11 +77,15 @@
     <div class="field is-grouped">
       <div class="control">
         <label class="label">Hours Worked</label>
-        <input class="input" type="number" name="hours_worked" step="0.1" value="{{ project.hours_worked_display }}" />
+        <input class="input" type="number" name="hours_worked" value="{{ project.hours_worked_display|double-format:1 }}" />
       </div>
-      <div class="control is-expanded">
+      <div class="control">
         <label class="label">Hourly Rate ($)</label>
-        <input class="input" type="number" name="hourly_rate" step="0.01" value="{{ project.hourly_rate_display }}" />
+        <input class="input" type="number" name="hourly_rate" value="{{ project.hourly_rate_display|double-format:2 }}" />
+      </div>
+      <div class="control">
+        <label class="label">Max Budget ($)</label>
+        <input class="input" type="number" name="max_budget" value="{{ project.max_budget_display|double-format:2 }}" />
       </div>
     </div>
   </div>

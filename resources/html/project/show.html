@@ -2,38 +2,29 @@
 
 {% block main %}
 <section class="content">
-  <h1 class="title is-4">{{ project.title }}</h1>
-
-  <p class="subtitle is-6">
-    <span class="tag">{{ project.list }}</span>
-    <span class="tag">{{ project.state }}</span>
-    <span class="tag">{{ project.priority }}</span>
-  </p>
 
   <div class="box">
     <h2 class="title is-6">Description</h2>
     <p>{{ project.description }}</p>
   </div>
 
-  {% if project.details %}
   <div class="box">
     <h2 class="title is-6">Details</h2>
     <p style="white-space: pre-wrap;">{{ project.details }}</p>
   </div>
-  {% endif %}
 
   <div class="box">
     <h2 class="title is-6">Tech Stack</h2>
-    <p><strong>Language:</strong> {{ project.programming_lang }}</p>
-    <p><strong>Personal:</strong> {% if project.is_personal %}Yes{% else %}No{% endif %}</p>
+    <p><strong>Language:</strong> {{ project.programming_lang|title }}</p>
     <p><strong>Test Suite:</strong> {% if project.has_test_suite %}Yes{% else %}No{% endif %}</p>
     <p><strong>Open Source:</strong> {% if project.is_open_source %}Yes{% else %}No{% endif %}</p>
   </div>
 
   <div class="box">
     <h2 class="title is-6">Finance</h2>
-    <p><strong>Hours Worked:</strong> {{ project.hours_worked_display }} h</p>
-    <p><strong>Hourly Rate:</strong> ${{ project.hourly_rate_display }}</p>
+    <p><strong>Hours Worked:</strong> {{ project.hours_worked_display|double-format:1 }}h</p>
+    <p><strong>Hourly Rate:</strong> {{ project.hourly_rate_display|currency-format:en:US }}</p>
+    <p><strong>Max Budget:</strong> {{ project.max_budget_display|currency-format:en:US }}</p>
   </div>
 
   <div class="buttons mt-4">

@@ -5,7 +5,7 @@ CREATE TABLE projects (
 
     title VARCHAR(120) NOT NULL,
     description TEXT NOT NULL,
-    details TEXT DEFAULT 'Long details explanation of the project.',
+    details TEXT DEFAULT 'Long detailed explanation of the project.',
     is_personal BOOLEAN DEFAULT false,
 
     -- Tech
