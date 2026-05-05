@@ -4,10 +4,6 @@
 <form action="/project/{{ project.id }}/update" method="POST">
   {% csrf-field %}
 
-  <input type="hidden" name="list" value="{{ project.list }}">
-  <input type="hidden" name="state" value="{{ project.state }}">
-  <input type="hidden" name="priority" value="{{ project.priority }}">
-
   <div class="content">
     <h2 class="title is-6">Title</h2>
     <div class="field">
@@ -77,11 +73,11 @@
     <div class="field is-grouped">
       <div class="control">
         <label class="label">Hours Worked</label>
-        <input class="input" type="number" name="hours_worked" step="0.1" value="{{ project.hours_worked }}" />
+        <input class="input" type="number" name="hours_worked" step="0.1" value="{{ project.hours_worked_display }}" />
       </div>
       <div class="control is-expanded">
         <label class="label">Hourly Rate ($)</label>
-        <input class="input" type="number" name="hourly_rate" step="0.01" value="{{ project.hourly_rate }}" />
+        <input class="input" type="number" name="hourly_rate" step="0.01" value="{{ project.hourly_rate_display }}" />
       </div>
     </div>
   </div>
