@@ -68,3 +68,9 @@ INSERT INTO project_files (
   :storage_path,
   :file_size
 );
+
+-- :name get-project-files :? :*
+SELECT *
+FROM project_files
+WHERE project_id = :project_id
+ORDER BY created_at DESC;

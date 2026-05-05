@@ -20,5 +20,6 @@ modules/
 .lsp/.cache/
 resources/public/js/
 
-# my stuff
+# project stuff
 dump.txt
+storage/

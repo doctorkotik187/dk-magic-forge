@@ -43,44 +43,7 @@
       </div>
     </div>
 
-    {% block upload %}
-    <div class="content mt-5">
-      <h2 class="title is-6">PDF Scrolls</h2>
-      <form action="/project/{{ project.id }}/upload" method="POST" enctype="multipart/form-data">
-        {% csrf-field %}
-        <div class="field has-addons">
-          <div class="control">
-            <div class="file is-primary has-name">
-              <label class="file-label">
-                <input class="file-input" type="file" name="pdf" accept="application/pdf">
-                <span class="file-cta">
-                  <span class="file-label">Choose PDF scroll</span>
-                </span>
-                <span class="file-name">No scroll selected</span>
-              </label>
-            </div>
-          </div>
-          <div class="control">
-            <button class="button is-primary">Upload</button>
-          </div>
-        </div>
-      </form>
-    </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const fileInput = document.querySelector('.file.has-name .file-input');
-        const fileName = document.querySelector('.file.has-name .file-name');
-
-        if (!fileInput || !fileName) return;
-
-        fileInput.addEventListener("change", () => {
-          fileName.textContent = fileInput.files.length > 0
-            ? fileInput.files[0].name
-            : "No scroll selected";
-        });
-      });
-    </script>
-    {% endblock %}
+    {% block upload %}{% endblock %}
 
   </div>
 </section>

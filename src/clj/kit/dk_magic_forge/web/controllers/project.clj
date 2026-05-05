@@ -4,9 +4,9 @@
    [ring.util.response :as response]
    [ring.util.http-response :as http-response]
    [clojure.string :as str]
+   [clojure.java.io :as io]
    [clojure.tools.logging :as log])
   (:import
-   [java.nio.file Files Paths StandardCopyOption]
    [java.util UUID]))
 
 (def valid-lists #{"inbox" "projects" "someday" "archives"})
@@ -89,6 +89,10 @@
     (and (:priority patch) (not (contains? valid-priorities (:priority patch))))
     (assoc :priority "Invalid priority specified")))
 
+;; =========================================================
+;; PROJECT LISTS
+;; =========================================================
+
 (defn list-projects
   [{:keys [query-fn]} request]
   (let [projects (->> (query-fn :get-projects-by-list {:list "projects"})
@@ -113,17 +117,28 @@
                       (map enrich-project))]
     (render-project-list request "archives.html" projects)))
 
+;; =========================================================
+;; PROJECT VIEW
+;; =========================================================
+
 (defn show
   [{:keys [query-fn]}
    {{:keys [id]} :path-params :as request}]
+
   (if-let [project-id (project-id-or-nil id)]
     (if-let [project (query-fn :get-project {:id project-id})]
-      (layout/render request "project/show.html"
-                     {:project (enrich-project project)
-                      :flash (:flash request)})
+
+      (let [files (query-fn :get-project-files {:project_id project-id})]
+
+        (layout/render request "project/show.html"
+                       {:project (enrich-project project)
+                        :files files
+                        :flash (:flash request)}))
+
       (layout/render request "404.html"
                      {:error "Project not found"
                       :flash (:flash request)}))
+
     (layout/render request "404.html"
                    {:error "Invalid project ID"
                     :flash (:flash request)})))
@@ -143,6 +158,10 @@
                    {:error "Invalid project ID"
                     :flash (:flash request)})))
 
+;; =========================================================
+;; CREATE / UPDATE
+;; =========================================================
+
 (defn create!
   [{:keys [query-fn]}
    {{:strs [project_title
@@ -152,10 +171,7 @@
             is_open_source
             hourly_rate]}
     :form-params
-    :as request}]
-  (log/debug "create! request:"
-             {:path-params (:path-params request)
-              :form-params (:form-params request)})
+    :as _request}]
   (let [errors (cond-> {}
                  (blank? project_title)
                  (assoc :project_title "Project title is required")
@@ -206,30 +222,53 @@
         (-> (http-response/found (str "/" (or (:list patch) "inbox")))
             (assoc :flash {:message "Project updated successfully."}))))))
 
+;; =========================================================
+;; UPLOAD (FIXED)
+;; =========================================================
+
 (defn upload!
   [{:keys [query-fn]}
    {{:keys [id]} :path-params
     :as request}]
+
   (let [params (:params request)
-        upload (get params "pdf")
+        upload (get params :pdf)
         project-id (project-id-or-nil id)]
+
+    (println "PROJECT-ID:" project-id)
+    (println "UPLOAD:" upload)
+
     (if (and project-id upload)
+
       (let [{:keys [filename content-type tempfile size]} upload
             safe-filename (str (UUID/randomUUID) ".pdf")
-            dest-dir (Paths/get "storage" (into-array String ["pdfs" (str project-id)]))
-            dest-file (.resolve dest-dir safe-filename)]
-        (Files/createDirectories dest-dir)
-        (Files/copy (.toPath tempfile)
-                    dest-file
-                    StandardCopyOption/REPLACE_EXISTING)
-        (query-fn :create-project-file!
-                  {:project_id project-id
-                   :original_filename filename
-                   :stored_filename safe-filename
-                   :content_type content-type
-                   :storage_path (str dest-file)
-                   :file_size size})
-        (-> (response/redirect (str "/project/" project-id))
-            (assoc :flash {:message "PDF uploaded successfully."})))
-      (-> (response/redirect (str "/project/" id))
-          (assoc :flash {:error "Upload failed."})))))
+            dest-dir (java.io.File. (str "storage/pdfs/" project-id))
+            dest-file (java.io.File. dest-dir safe-filename)]
+
+        (.mkdirs dest-dir)
+
+        (with-open [in (io/input-stream tempfile)
+                    out (io/output-stream dest-file)]
+          (io/copy in out))
+
+        (try
+          (query-fn :create-project-file!
+                    {:project_id project-id
+                     :original_filename filename
+                     :stored_filename safe-filename
+                     :content_type content-type
+                     :storage_path (.getPath dest-file)
+                     :file_size size})
+
+          (-> (response/redirect (str "/project/" project-id))
+              (assoc :flash {:message "PDF uploaded successfully."}))
+
+          (catch Exception e
+            (println "DB ERROR:" (.getMessage e))
+            (-> (response/redirect (str "/project/" project-id))
+                (assoc :flash {:error "DB insert failed"})))))
+
+      (do
+        (println "MISSING DATA")
+        (-> (response/redirect (str "/project/" id))
+            (assoc :flash {:error "Upload failed - missing data"}))))))

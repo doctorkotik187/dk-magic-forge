@@ -42,3 +42,58 @@
   </div>
 </section>
 {% endblock %}
+
+{% block upload %}
+<div class="box mt-5">
+
+  <h2 class="title is-5">📜 Codex Entries</h2>
+
+  <!-- Upload section -->
+  <form action="/project/{{ project.id }}/upload"
+        method="POST"
+        enctype="multipart/form-data"
+        class="mb-4">
+
+    {% csrf-field %}
+
+    <div class="field has-addons">
+      <div class="control">
+        <div class="file is-primary has-name">
+          <label class="file-label">
+            <input class="file-input" type="file" name="pdf" accept="application/pdf">
+            <span class="file-cta">
+              <span class="file-label">Choose scroll</span>
+            </span>
+            <span class="file-name">No scroll selected</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="control">
+        <button class="button is-primary">Upload</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- File list -->
+  {% if files %}
+    <div class="content is-small">
+      <ul>
+        {% for file in files %}
+          <li>
+            <a href="/pdfs/{{ project.id }}/{{ file.stored_filename }}" target="_blank">
+              {{ file.original_filename }}
+            </a>
+            <span class="has-text-grey">
+              ({{ file.file_size }} bytes)
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p class="has-text-grey is-size-7">No scrolls inscribed yet.</p>
+  {% endif %}
+
+</div>
+{% endblock %}
