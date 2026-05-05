@@ -4,6 +4,10 @@
 <form action="/project/{{ project.id }}/update" method="POST">
   {% csrf-field %}
 
+  <input type="hidden" name="list" value="{{ project.list }}">
+  <input type="hidden" name="state" value="{{ project.state }}">
+  <input type="hidden" name="priority" value="{{ project.priority }}">
+
   <div class="content">
     <h2 class="title is-6">Title</h2>
     <div class="field">
