@@ -34,7 +34,7 @@
 (defn page-routes [opts]
   [["/" {:get home}]
    ["/about" {:get about}]
-   ["/contact" {:get contact}]
+   ; ["/contact" {:get contact :post (partial contact/submit-contact! opts)}]
    ["/booking" {:get booking :post (partial project/create! opts)}]
 
    ["/inbox" {:get (partial project/list-inbox opts)}]

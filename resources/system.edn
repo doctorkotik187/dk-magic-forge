@@ -54,6 +54,13 @@
  :db.sql/migrations {:store :database,
                      :db {:datasource #ig/ref :db.sql/connection},
                      :migrate-on-init? true}
+ :smtp/config
+  {:host #or [#env SMTP_HOST "smtp.gmail.com"]
+   :user #env SMTP_USER
+   :pass #env SMTP_PASS
+   :port #long #or [#env SMTP_PORT 587]
+   :tls  true
+   :to   #env SMTP_TO}
  :reitit.routes/pages {:base-path "",
                        :env #ig/ref :system/env
                        :query-fn #ig/ref :db.sql/query-fn}}
