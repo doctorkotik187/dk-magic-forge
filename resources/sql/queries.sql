@@ -51,3 +51,20 @@ SET title = COALESCE(:title, title),
     minutes_worked = COALESCE(:minutes_worked, minutes_worked),
     updated_at = now()
 WHERE id = :id;
+
+-- :name create-project-file! :! :n
+INSERT INTO project_files (
+  project_id,
+  original_filename,
+  stored_filename,
+  content_type,
+  storage_path,
+  file_size
+) VALUES (
+  :project_id,
+  :original_filename,
+  :stored_filename,
+  :content_type,
+  :storage_path,
+  :file_size
+);

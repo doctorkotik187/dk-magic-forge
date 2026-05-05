@@ -44,7 +44,8 @@
 
    ["/project/:id" {:get (partial project/show opts)}]
    ["/project/:id/edit" {:get (partial project/edit opts)}]
-   ["/project/:id/update" {:post (partial project/update! opts)}]])
+   ["/project/:id/update" {:post (partial project/update! opts)}]
+   ["/project/:id/upload" {:post (partial project/upload! opts)}]])
 
 (def route-data
   {:middleware

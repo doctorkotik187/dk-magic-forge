@@ -66,6 +66,20 @@
         </div>
       </form>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const fileInput = document.querySelector('.file.has-name .file-input');
+        const fileName = document.querySelector('.file.has-name .file-name');
+
+        if (!fileInput || !fileName) return;
+
+        fileInput.addEventListener("change", () => {
+          fileName.textContent = fileInput.files.length > 0
+            ? fileInput.files[0].name
+            : "No scroll selected";
+        });
+      });
+    </script>
     {% endblock %}
 
   </div>

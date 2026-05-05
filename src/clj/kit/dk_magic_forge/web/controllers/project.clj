@@ -4,7 +4,10 @@
    [ring.util.response :as response]
    [ring.util.http-response :as http-response]
    [clojure.string :as str]
-   [clojure.tools.logging :as log]))
+   [clojure.tools.logging :as log])
+  (:import
+   [java.nio.file Files Paths StandardCopyOption]
+   [java.util UUID]))
 
 (def valid-lists #{"inbox" "projects" "someday" "archives"})
 (def valid-states #{"doing" "todo" "waiting" "noop" "done" "canceled"})
@@ -202,3 +205,31 @@
         (query-fn :update-project! (assoc patch :id project-id))
         (-> (http-response/found (str "/" (or (:list patch) "inbox")))
             (assoc :flash {:message "Project updated successfully."}))))))
+
+(defn upload!
+  [{:keys [query-fn]}
+   {{:keys [id]} :path-params
+    :as request}]
+  (let [params (:params request)
+        upload (get params "pdf")
+        project-id (project-id-or-nil id)]
+    (if (and project-id upload)
+      (let [{:keys [filename content-type tempfile size]} upload
+            safe-filename (str (UUID/randomUUID) ".pdf")
+            dest-dir (Paths/get "storage" (into-array String ["pdfs" (str project-id)]))
+            dest-file (.resolve dest-dir safe-filename)]
+        (Files/createDirectories dest-dir)
+        (Files/copy (.toPath tempfile)
+                    dest-file
+                    StandardCopyOption/REPLACE_EXISTING)
+        (query-fn :create-project-file!
+                  {:project_id project-id
+                   :original_filename filename
+                   :stored_filename safe-filename
+                   :content_type content-type
+                   :storage_path (str dest-file)
+                   :file_size size})
+        (-> (response/redirect (str "/project/" project-id))
+            (assoc :flash {:message "PDF uploaded successfully."})))
+      (-> (response/redirect (str "/project/" id))
+          (assoc :flash {:error "Upload failed."})))))
