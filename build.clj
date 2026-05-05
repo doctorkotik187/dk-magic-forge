@@ -1,6 +1,8 @@
 (ns build
-  (:require [clojure.string :as string]
-            [clojure.tools.build.api :as b]))
+  (:require
+    [clojure.string :as string]
+    [clojure.tools.build.api :as b]))
+
 
 (def lib 'kit/dk-magic-forge)
 (def main-cls (string/join "." (filter some? [(namespace lib) (name lib) "core"])))
@@ -10,13 +12,16 @@
 (def uber-file (format "%s/%s-standalone.jar" target-dir (name lib)))
 (def basis (b/create-basis {:project "deps.edn"}))
 
+
 (defn clean
   "Delete the build target directory"
   [_]
   (println (str "Cleaning " target-dir))
   (b/delete {:path target-dir}))
 
-(defn prep [_]
+
+(defn prep
+  [_]
   (println "Writing Pom...")
   (b/write-pom {:class-dir class-dir
                 :lib lib
@@ -26,7 +31,9 @@
   (b/copy-dir {:src-dirs ["src/clj" "resources" "env/prod/resources" "env/prod/clj"]
                :target-dir class-dir}))
 
-(defn uber [_]
+
+(defn uber
+  [_]
   (println "Compiling Clojure...")
   (b/compile-clj {:basis basis
                   :src-dirs ["src/clj" "resources" "env/prod/resources" "env/prod/clj"]
@@ -37,5 +44,7 @@
            :main main-cls
            :basis basis}))
 
-(defn all [_]
+
+(defn all
+  [_]
   (do (clean nil) (prep nil) (uber nil)))

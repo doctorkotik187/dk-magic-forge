@@ -1,66 +1,55 @@
-{:system/env
- #profile {:dev :dev
-           :test :test
-           :prod :prod}
-
- :server/http
- {:port #long #or [#env PORT 3000]
-  :host #or [#env HTTP_HOST "0.0.0.0"]
-  :handler #ig/ref :handler/ring}
-
+{:db.sql/connection
+ #profile
+  {:dev
+   {:jdbc-url
+    "jdbc:postgresql://localhost:5432/dk-magic-forge_dev?user=dk-magic-forge&password=dk-magic-forge"},
+   :test
+   {:jdbc-url
+    "jdbc:postgresql://localhost:5432/dk-magic-forge_test?user=dk-magic-forge&password=dk-magic-forge"},
+   :prod {:jdbc-url #env JDBC_URL}},
+ :db.sql/migrations {:db {:datasource #ig/ref :db.sql/connection},
+                     :migrate-on-init? true,
+                     :store :database},
+ :db.sql/query-fn
+ {:conn #ig/ref :db.sql/connection, :filename "sql/queries.sql", :options {}},
  :handler/ring
- {:router #ig/ref :router/core
-  :api-path "/api"
-  :cookie-secret #or [#env COOKIE_SECRET "XXTTFOFHMNCTRUXF"]
-  ;; from ring.middleware.defaults. anti-forgery `false` by default because services may not require it
-  :site-defaults-config {:params {:urlencoded true
-                                  :multipart true
-                                  :nested true
-                                  :keywordize true}
-                         :cookies true
-                         :session {:flash true
-                                   :cookie-name "kit.dk-magic-forge"
-                                   :cookie-attrs {:max-age 86400
-                                                  :http-only true
-                                                  :same-site :strict}}
-                         :security {:anti-forgery false
-                                    :xss-protection {:enable? true,
-                                                     :mode :block}
-                                    :frame-options :sameorigin
-                                    :content-type-options :nosniff}
-                         :static {:resources "public"}
-                         :responses {:not-modified-responses true
-                                     :absolute-redirects true
-                                     :content-types true
-                                     :default-charset "utf-8"}}}
-
- :reitit.routes/api
- {:base-path "/api"
-  :env #ig/ref :system/env
-  :query-fn #ig/ref :db.sql/query-fn}
-
- :router/routes
- {:routes #ig/refset :reitit/routes}
-
- :router/core
- {:routes #ig/ref :router/routes
-  :env #ig/ref :system/env}
- :db.sql/connection #profile {:dev {:jdbc-url "jdbc:postgresql://localhost:5432/dk-magic-forge_dev?user=dk-magic-forge&password=dk-magic-forge"},
-                              :test {:jdbc-url "jdbc:postgresql://localhost:5432/dk-magic-forge_test?user=dk-magic-forge&password=dk-magic-forge"},
-                              :prod {:jdbc-url #env JDBC_URL}}
- :db.sql/query-fn {:conn #ig/ref :db.sql/connection,
-                   :options {},
-                   :filename "sql/queries.sql"}
- :db.sql/migrations {:store :database,
-                     :db {:datasource #ig/ref :db.sql/connection},
-                     :migrate-on-init? true}
- :smtp/config
-  {:host #or [#env SMTP_HOST "smtp.gmail.com"]
-   :user #env SMTP_USER
-   :pass #env SMTP_PASS
-   :port #long #or [#env SMTP_PORT 587]
-   :tls  true
-   :to   #env SMTP_TO}
+ {:router #ig/ref :router/core,
+  :api-path "/api",
+  :cookie-secret #or [#env COOKIE_SECRET "XXTTFOFHMNCTRUXF"],
+    ;; from ring.middleware.defaults. anti-forgery `false` by default
+    ;; because services may not require it
+  :site-defaults-config
+  {:cookies true,
+   :params
+   {:keywordize true, :multipart true, :nested true, :urlencoded true},
+   :responses {:absolute-redirects true,
+               :content-types true,
+               :default-charset "utf-8",
+               :not-modified-responses true},
+   :security {:anti-forgery false,
+              :content-type-options :nosniff,
+              :frame-options :sameorigin,
+              :xss-protection {:enable? true, :mode :block}},
+   :session {:cookie-attrs
+             {:http-only true, :max-age 86400, :same-site :strict},
+             :cookie-name "kit.dk-magic-forge",
+             :flash true},
+   :static {:resources "public"}}},
+ :reitit.routes/api {:base-path "/api",
+                     :env #ig/ref :system/env,
+                     :query-fn #ig/ref :db.sql/query-fn},
  :reitit.routes/pages {:base-path "",
-                       :env #ig/ref :system/env
-                       :query-fn #ig/ref :db.sql/query-fn}}
+                       :env #ig/ref :system/env,
+                       :query-fn #ig/ref :db.sql/query-fn},
+ :router/core {:env #ig/ref :system/env, :routes #ig/ref :router/routes},
+ :router/routes {:routes #ig/refset :reitit/routes},
+ :server/http {:handler #ig/ref :handler/ring,
+               :host #or [#env HTTP_HOST "0.0.0.0"],
+               :port #long #or [#env PORT 3000]},
+ :smtp/config {:host #or [#env SMTP_HOST "smtp.gmail.com"],
+               :pass #env SMTP_PASS,
+               :port #long #or [#env SMTP_PORT 587],
+               :tls true,
+               :to #env SMTP_TO,
+               :user #env SMTP_USER},
+ :system/env #profile {:dev :dev, :test :test, :prod :prod}}

@@ -1,9 +1,9 @@
 (ns kit.dk-magic-forge.web.middleware.core
   (:require
-    [kit.dk-magic-forge.env :as env]
-    [ring.middleware.defaults :as defaults]
-    [ring.middleware.session.cookie :as cookie]
-    [ring.middleware.file :refer [wrap-file]]))
+   [kit.dk-magic-forge.env :as env]
+   [ring.middleware.defaults :as defaults]
+   [ring.middleware.file :refer [wrap-file]]
+   [ring.middleware.session.cookie :as cookie]))
 
 (defn wrap-base
   [{:keys [metrics site-defaults-config cookie-secret] :as opts}]
@@ -21,6 +21,6 @@
 
           ;; Ring defaults (sessions, security, etc.)
           (defaults/wrap-defaults
-            (assoc-in site-defaults-config
-                      [:session :store]
-                      cookie-store))))))
+           (assoc-in site-defaults-config
+                     [:session :store]
+                     cookie-store))))))

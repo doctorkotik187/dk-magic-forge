@@ -1,14 +1,14 @@
 (ns kit.dk-magic-forge.web.routes.api
   (:require
-    [kit.dk-magic-forge.web.controllers.health :as health]
-    [kit.dk-magic-forge.web.middleware.exception :as exception]
-    [kit.dk-magic-forge.web.middleware.formats :as formats]
-    [integrant.core :as ig]
-    [reitit.coercion.malli :as malli]
-    [reitit.ring.coercion :as coercion]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [reitit.ring.middleware.parameters :as parameters]
-    [reitit.swagger :as swagger]))
+   [integrant.core :as ig]
+   [kit.dk-magic-forge.web.controllers.health :as health]
+   [kit.dk-magic-forge.web.middleware.exception :as exception]
+   [kit.dk-magic-forge.web.middleware.formats :as formats]
+   [reitit.coercion.malli :as malli]
+   [reitit.ring.coercion :as coercion]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.parameters :as parameters]
+   [reitit.swagger :as swagger]))
 
 (def route-data
   {:coercion   malli/coercion
@@ -16,23 +16,24 @@
    :swagger    {:id ::api}
    :middleware [;; query-params & form-params
                 parameters/parameters-middleware
-                  ;; content-negotiation
+                ;; content-negotiation
                 muuntaja/format-negotiate-middleware
-                  ;; encoding response body
+                ;; encoding response body
                 muuntaja/format-response-middleware
-                  ;; exception handling
+                ;; exception handling
                 coercion/coerce-exceptions-middleware
-                  ;; decoding request body
+                ;; decoding request body
                 muuntaja/format-request-middleware
-                  ;; coercing response bodys
+                ;; coercing response bodys
                 coercion/coerce-response-middleware
-                  ;; coercing request parameters
+                ;; coercing request parameters
                 coercion/coerce-request-middleware
-                  ;; exception handling
+                ;; exception handling
                 exception/wrap-exception]})
 
 ;; Routes
-(defn api-routes [_opts]
+(defn api-routes
+  [_opts]
   [["/swagger.json"
     {:get {:no-doc  true
            :swagger {:info {:title "kit.dk-magic-forge API"}}

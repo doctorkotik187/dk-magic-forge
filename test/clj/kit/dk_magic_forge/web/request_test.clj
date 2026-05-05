@@ -1,6 +1,7 @@
 (ns kit.dk-magic-forge.web.request-test
-  (:require  [clojure.test :refer [deftest testing is use-fixtures]]
-             [kit.dk-magic-forge.test-utils :refer [system-state system-fixture GET]]))
+  (:require
+   [clojure.test :refer [deftest testing is use-fixtures]]
+   [kit.dk-magic-forge.test-utils :refer [system-state system-fixture GET]]))
 
 (use-fixtures :once (system-fixture))
 

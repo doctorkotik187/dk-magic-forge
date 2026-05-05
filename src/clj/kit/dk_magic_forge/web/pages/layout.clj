@@ -1,11 +1,11 @@
 (ns kit.dk-magic-forge.web.pages.layout
   (:require
    [clojure.java.io]
-   [selmer.parser :as parser]
-   [ring.util.http-response :refer [content-type ok]]
-   [ring.util.anti-forgery :refer [anti-forgery-field]]
    [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
-   [ring.util.response]))
+   [ring.util.anti-forgery :refer [anti-forgery-field]]
+   [ring.util.http-response :refer [content-type ok]]
+   [ring.util.response]
+   [selmer.parser :as parser]))
 
 (def selmer-opts {:custom-resource-path (clojure.java.io/resource "html")})
 

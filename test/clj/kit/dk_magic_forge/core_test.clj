@@ -1,8 +1,7 @@
 (ns kit.dk-magic-forge.core-test
   (:require
-    [kit.dk-magic-forge.test-utils :as utils]
-    [clojure.test :refer :all]))
+   [clojure.test :refer :all]
+   [kit.dk-magic-forge.test-utils :as utils]))
 
 (deftest example-test
   (is (= 1 2)))
-

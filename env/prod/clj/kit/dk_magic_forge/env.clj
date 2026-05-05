@@ -1,5 +1,7 @@
 (ns kit.dk-magic-forge.env
-  (:require [clojure.tools.logging :as log]))
+  (:require
+    [clojure.tools.logging :as log]))
+
 
 (def defaults
   {:init       (fn []

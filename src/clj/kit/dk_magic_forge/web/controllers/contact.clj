@@ -1,11 +1,12 @@
 (ns kit.dk-magic-forge.web.controllers.contact
   (:require
-    [ring.util.response :as response]
-    [clojure.string :as str]
-    [clojure.tools.logging :as log]
-    [postal.core :refer [send-message]]))
+   [clojure.string :as str]
+   [clojure.tools.logging :as log]
+   [postal.core :refer [send-message]]
+   [ring.util.response :as response]))
 
-(defn blank? [s]
+(defn blank?
+  [s]
   (or (nil? s) (str/blank? s)))
 
 (defn submit-contact!
@@ -21,7 +22,7 @@
                  (blank? message)
                  (assoc :message "Message is required"))
 
-        smtp-config (:smtp config)] ;; <-- comes from your env config
+        smtp-config (:smtp config)] ; <-- comes from your env config
     (if (seq errors)
       ;; validation failed
       (-> (response/redirect "/contact")
@@ -30,14 +31,14 @@
       ;; send email
       (try
         (send-message
-          smtp-config
-          {:from email
-           :to (:to smtp-config) ;; your receiving email
-           :subject (str "Forge Message from " name)
-           :body (str
-                   "Name: " name "\n"
-                   "Email: " email "\n\n"
-                   message)})
+         smtp-config
+         {:from email
+          :to (:to smtp-config) ; your receiving email
+          :subject (str "Forge Message from " name)
+          :body (str
+                 "Name: " name "\n"
+                 "Email: " email "\n\n"
+                 message)})
 
         (-> (response/redirect "/contact")
             (assoc :flash {:message "Message sent into the forge 🔥"}))

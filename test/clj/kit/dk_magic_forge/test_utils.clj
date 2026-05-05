@@ -1,9 +1,9 @@
 (ns kit.dk-magic-forge.test-utils
   (:require
-    [kit.dk-magic-forge.core :as core]
-    [peridot.core :as p]
-    [byte-streams :as bs]
-    [integrant.repl.state :as state]))
+   [byte-streams :as bs]
+   [integrant.repl.state :as state]
+   [kit.dk-magic-forge.core :as core]
+   [peridot.core :as p]))
 
 (defn system-state
   []
@@ -17,12 +17,14 @@
     (f)
     (core/stop-app)))
 
-(defn get-response [ctx]
+(defn get-response
+  [ctx]
   (-> ctx
       :response
       (update :body (fnil bs/to-string ""))))
 
-(defn GET [app path params headers]
+(defn GET
+  [app path params headers]
   (-> (p/session app)
       (p/request path
                  :request-method :get

@@ -1,50 +1,59 @@
 (ns kit.dk-magic-forge.web.controllers.project
   (:require
-   [kit.dk-magic-forge.web.pages.layout :as layout]
-   [ring.util.response :as response]
-   [ring.util.http-response :as http-response]
-   [clojure.string :as str]
    [clojure.java.io :as io]
-   [clojure.tools.logging :as log])
+   [clojure.string :as str]
+   [clojure.tools.logging :as log]
+   [kit.dk-magic-forge.web.pages.layout :as layout]
+   [ring.util.http-response :as http-response]
+   [ring.util.response :as response])
   (:import
-   [java.util UUID]))
+   (java.util
+    UUID)))
 
 (def valid-lists #{"inbox" "projects" "someday" "archives"})
 (def valid-states #{"doing" "todo" "waiting" "noop" "done" "canceled"})
 (def valid-priorities #{"a" "b" "c" "d"})
 
-(defn blank? [s]
+(defn blank?
+  [s]
   (or (nil? s) (str/blank? s)))
 
-(defn parse-long-safe [s]
+(defn parse-long-safe
+  [s]
   (when-not (blank? s)
     (try
       (parse-long s)
       (catch Exception _ nil))))
 
-(defn format-date [ts]
+(defn format-date
+  [ts]
   (when ts
     (subs (str ts) 0 10)))
 
-(defn cents->dollars [cents]
+(defn cents->dollars
+  [cents]
   (when (some? cents)
     (/ cents 100.0)))
 
-(defn minutes->hours [minutes]
+(defn minutes->hours
+  [minutes]
   (when (some? minutes)
     (/ minutes 60.0)))
 
-(defn dwarf-group [state]
+(defn dwarf-group
+  [state]
   (let [s (str/lower-case (or state ""))]
     (cond
       (#{"todo" "doing"} s) "active"
       (= "waiting" s) "waiting"
       :else "idle")))
 
-(defn checkbox-checked? [params k]
+(defn checkbox-checked?
+  [params k]
   (contains? params k))
 
-(defn render-project-list [request template projects]
+(defn render-project-list
+  [request template projects]
   (layout/render request template
                  {:projects projects
                   :valid_lists valid-lists
@@ -52,7 +61,8 @@
                   :valid_priorities valid-priorities
                   :flash (:flash request)}))
 
-(defn enrich-project [p]
+(defn enrich-project
+  [p]
   (-> p
       (assoc :dwarf_group (dwarf-group (:state p)))
       (assoc :dwarf (inc (rand-int 8)))
@@ -62,10 +72,12 @@
       (assoc :max_budget_display (cents->dollars (:max_budget_cents p)))
       (assoc :hourly_rate_display (cents->dollars (:hourly_rate_cents p)))))
 
-(defn project-id-or-nil [id]
+(defn project-id-or-nil
+  [id]
   (parse-long-safe id))
 
-(defn project-patch [params]
+(defn project-patch
+  [params]
   {:title (get params "title")
    :description (get params "description")
    :details (get params "details")
@@ -80,7 +92,8 @@
    :hourly_rate_cents (some-> (get params "hourly_rate") parse-long-safe (* 100))
    :minutes_worked (some-> (get params "hours_worked") parse-long-safe (* 60))})
 
-(defn validate-patch [patch]
+(defn validate-patch
+  [patch]
   (cond-> {}
     (and (:list patch) (not (contains? valid-lists (:list patch))))
     (assoc :list "Invalid list specified")
