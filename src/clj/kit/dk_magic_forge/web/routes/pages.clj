@@ -2,6 +2,7 @@
   (:require
    [integrant.core :as ig]
    [kit.dk-magic-forge.web.controllers.project :as project]
+   [kit.dk-magic-forge.web.controllers.contact :as contact]
    [kit.dk-magic-forge.web.middleware.exception :as exception]
    [kit.dk-magic-forge.web.pages.layout :as layout]
    [reitit.ring.middleware.muuntaja :as muuntaja]
@@ -40,7 +41,7 @@
   [opts]
   [["/" {:get home}]
    ["/about" {:get about}]
-   ;; ["/contact" {:get contact :post (partial contact/submit-contact! opts)}]
+   ["/contact" {:get contact :post (partial contact/submit-contact! opts)}]
    ["/booking" {:get booking :post (partial project/create! opts)}]
 
    ["/inbox" {:get (partial project/list-inbox opts)}]

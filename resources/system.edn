@@ -46,10 +46,4 @@
  :server/http {:handler #ig/ref :handler/ring,
                :host #or [#env HTTP_HOST "0.0.0.0"],
                :port #long #or [#env PORT 3000]},
- :smtp/config {:host #or [#env SMTP_HOST "smtp.gmail.com"],
-               :pass #env SMTP_PASS,
-               :port #long #or [#env SMTP_PORT 587],
-               :tls true,
-               :to #env SMTP_TO,
-               :user #env SMTP_USER},
  :system/env #profile {:dev :dev, :test :test, :prod :prod}}
