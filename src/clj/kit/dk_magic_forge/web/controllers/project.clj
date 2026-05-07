@@ -143,11 +143,35 @@
   (if-let [project-id (project-id-or-nil id)]
     (if-let [project (query-fn :get-project {:id project-id})]
 
-      (let [files (query-fn :get-project-files {:project_id project-id})]
+      (let [files (query-fn :get-project-files {:project_id project-id})
+
+            payments (query-fn :get-project-payments
+                               {:project_id project-id})
+
+            payments-total (query-fn :get-project-payments-total-usd
+                                     {:project_id project-id})
+
+            ;; -----------------------------
+            ;; MONEY COMPUTATION (HERE)
+            ;; -----------------------------
+            total-paid-usd-cents
+            (or (:total_usd_cents payments-total) 0)
+
+            max-budget-cents
+            (or (:max_budget_cents project) 0)
+
+            remaining-budget-cents
+            (- max-budget-cents total-paid-usd-cents)
+
+            remaining-budget-usd
+            (/ remaining-budget-cents 100.0)]
 
         (layout/render request "project/show.html"
                        {:project (enrich-project project)
                         :files files
+                        :payments payments
+                        :payments-total payments-total
+                        :remaining-budget remaining-budget-usd
                         :flash (:flash request)}))
 
       (layout/render request "404.html"

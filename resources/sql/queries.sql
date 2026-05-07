@@ -1,4 +1,8 @@
--- Place your queries here. Docs available [https://www.hugsql.org/](https://www.hugsql.org/)
+
+-- =========================================================
+-- 🧙 PROJECTS
+-- Core project management queries
+-- =========================================================
 
 -- :name get-projects :? :*
 SELECT *
@@ -25,7 +29,8 @@ INSERT INTO projects (
   has_test_suite,
   is_open_source,
   hourly_rate_cents
-) VALUES (
+)
+VALUES (
   :title,
   :description,
   :is_personal,
@@ -53,6 +58,12 @@ SET title = COALESCE(:title, title),
     updated_at = now()
 WHERE id = :id;
 
+
+-- =========================================================
+-- 📜 PROJECT FILES (Codex / PDFs)
+-- Uploaded documents tied to a project
+-- =========================================================
+
 -- :name create-project-file! :! :n
 INSERT INTO project_files (
   project_id,
@@ -61,7 +72,8 @@ INSERT INTO project_files (
   content_type,
   storage_path,
   file_size
-) VALUES (
+)
+VALUES (
   :project_id,
   :original_filename,
   :stored_filename,
@@ -75,3 +87,45 @@ SELECT *
 FROM project_files
 WHERE project_id = :project_id
 ORDER BY created_at DESC;
+
+
+-- =========================================================
+-- 💰 PAYMENTS / LEDGER
+-- Financial tracking per project
+-- =========================================================
+
+-- :name create-payment! :! :n
+INSERT INTO payments (
+  project_id,
+  invoice_number,
+  original_amount_cents,
+  original_currency,
+  usd_amount_cents,
+  note,
+  paid_at
+)
+VALUES (
+  :project_id,
+  :invoice_number,
+  :original_amount_cents,
+  :original_currency,
+  :usd_amount_cents,
+  :note,
+  COALESCE(:paid_at::date, CURRENT_DATE)
+);
+
+-- :name get-project-payments :? :*
+SELECT *
+FROM payments
+WHERE project_id = :project_id
+ORDER BY paid_at DESC, id DESC;
+
+-- :name get-project-payments-total-usd :? :1
+SELECT COALESCE(SUM(usd_amount_cents), 0) AS total_usd_cents
+FROM payments
+WHERE project_id = :project_id;
+
+-- :name delete-payment! :! :n
+DELETE FROM payments
+WHERE id = :id
+  AND project_id = :project_id;

@@ -3,6 +3,7 @@
    [integrant.core :as ig]
    [kit.dk-magic-forge.web.controllers.project :as project]
    [kit.dk-magic-forge.web.controllers.contact :as contact]
+   [kit.dk-magic-forge.web.controllers.payment :as payment]
    [kit.dk-magic-forge.web.middleware.exception :as exception]
    [kit.dk-magic-forge.web.pages.layout :as layout]
    [reitit.ring.middleware.muuntaja :as muuntaja]
@@ -52,7 +53,12 @@
    ["/project/:id" {:get (partial project/show opts)}]
    ["/project/:id/edit" {:get (partial project/edit opts)}]
    ["/project/:id/update" {:post (partial project/update! opts)}]
-   ["/project/:id/upload" {:post (partial project/upload! opts)}]])
+   ["/project/:id/upload" {:post (partial project/upload! opts)}]
+
+   ["/project/:project-id/payment/create" {:post (partial payment/create! opts)}]
+   ["/project/:project-id/payment/:payment-id/delete" {:post (partial payment/delete! opts)}]
+
+   ])
 
 (def route-data
   {:middleware
