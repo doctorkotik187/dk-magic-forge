@@ -2,6 +2,7 @@
   (:require
    [integrant.core :as ig]
    [kit.dk-magic-forge.web.controllers.health :as health]
+   [kit.dk-magic-forge.web.controllers.stripe :as stripe]
    [kit.dk-magic-forge.web.middleware.exception :as exception]
    [kit.dk-magic-forge.web.middleware.formats :as formats]
    [reitit.coercion.malli :as malli]
@@ -38,11 +39,10 @@
     {:get {:no-doc  true
            :swagger {:info {:title "kit.dk-magic-forge API"}}
            :handler (swagger/create-swagger-handler)}}]
-   ["/health"
-    ;; note that use of the var is necessary
-    ;; for reitit to reload routes without
-    ;; restarting the system
-    {:get #'health/healthcheck!}]])
+   ["/health" {:get #'health/healthcheck!}]
+   ["/create-payment-intent" {:post stripe/create-payment-intent-handler}]
+
+   ])
 
 (derive :reitit.routes/api :reitit/routes)
 

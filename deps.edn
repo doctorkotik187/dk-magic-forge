@@ -23,6 +23,7 @@
  io.github.kit-clj/kit-core {:mvn/version "1.0.10"}
  io.github.kit-clj/kit-undertow {:mvn/version "1.0.10"}
  com.draines/postal {:mvn/version "2.0.5"}
+ io.github.yonureker/stripe-clojure {:mvn/version "2.3.0"}
  org.postgresql/postgresql {:mvn/version "42.3.4"}
  io.github.kit-clj/kit-postgres {:mvn/version "1.0.7"}
  io.github.kit-clj/kit-sql-conman {:mvn/version "1.10.4"}

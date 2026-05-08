@@ -35,7 +35,8 @@
 (defn booking
   [request]
   (layout/render request "booking.html"
-                 {:flash (:flash request)}))
+                 {:flash (:flash request)
+                  :env   {:stripe-publishable-key (get-in request [:system/env :stripe-publishable-key])}}))
 
 ;; Routes
 (defn page-routes
