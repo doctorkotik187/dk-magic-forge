@@ -125,4 +125,8 @@ Maybe also use AI to simplify the projet details made by the client and check if
 
 ## TODO
 - [ ] add 404.html
-- [ ]
+- [ ] stripe payments
+- [ ] contact captcha
+- [ ] auth + role based security
+- [ ] infos like email, discord (for paying clients)
+- [ ] notification emails on important events
